@@ -45,4 +45,4 @@ services:
       - my-db:/var/lib/mysql
 # Names our volume
 volumes:
-  my-db:
+  my-db: messenger
