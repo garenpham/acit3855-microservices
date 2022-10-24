@@ -43,6 +43,6 @@ services:
     # Where our data will be persisted
     volumes:
       - my-db:/var/lib/mysql
-  # Names our volume
-  volumes:
-    my-db: messenger
+# Names our volume
+volumes:
+  my-db:
