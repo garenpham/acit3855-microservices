@@ -1,4 +1,5 @@
 version: "3.3"
+restart: always
 services:
   zookeeper:
     image: wurstmeister/zookeeper
