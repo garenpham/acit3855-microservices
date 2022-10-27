@@ -1,5 +1,5 @@
 version: "3.3"
-restart: always
+restart-policy: always
 services:
   zookeeper:
     image: wurstmeister/zookeeper
