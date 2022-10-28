@@ -1,3 +1,4 @@
+6a
 readings.sqlite
 app.log
 __pycache__
@@ -5,4 +6,3 @@ create_tables.py
 stats.sqlite
 events.json
 drop_tables.py
-6a
