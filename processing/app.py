@@ -1,7 +1,5 @@
 import datetime
 import json
-from flask_sqlalchemy import get_state
-import swagger_ui_bundle
 import connexion
 from connexion import NoContent
 import requests
