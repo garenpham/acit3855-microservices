@@ -1,0 +1,106 @@
+---
+openapi: 3.0.0
+info:
+  title: Simple Check in API
+  description: This is a simple API
+  contact:
+    email: tpham100@my.bcit.ca
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: /
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /checkIn:
+    post:
+      tags:
+        - admins
+      summary: send checkin info to the system
+      description: Adds a checkin info to the system
+      operationId: app.checkIn
+      requestBody:
+        description: Checkin info to add
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/checkIn"
+      responses:
+        "201":
+          description: item created
+        "400":
+          description: invalid input, object invalid
+  /bookingConfirm:
+    post:
+      tags:
+        - admins
+      summary: adds a booking confirmation
+      description: Adds a booking confirmation to the system
+      operationId: app.bookingConfirm
+      requestBody:
+        description: Booking confirmation to add
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bookingConfirm"
+      responses:
+        "201":
+          description: item created
+        "400":
+          description: invalid input, object invalid
+components:
+  schemas:
+    checkIn:
+      required:
+        - initialDeposit
+        - name
+        - numPeople
+        - reservationCode
+      type: object
+      properties:
+        reservationCode:
+          type: string
+          format: uuid
+          example: 4e8fc70e-2fe2-11ed-a261-0242ac120002
+        name:
+          type: string
+          example: Alan Walker
+        initialDeposit:
+          type: integer
+          example: 1000
+        numPeople:
+          type: integer
+          example: 4
+        trace_id:
+          type: integer
+    bookingConfirm:
+      required:
+        - confirmationCode
+        - name
+        - nights
+        - roomNum
+      type: object
+      properties:
+        confirmationCode:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Alan Walker
+        roomNum:
+          type: integer
+          example: 444
+        nights:
+          type: integer
+          example: 2
+        arriveDate:
+          type: string
+          format: date-time
+          example: 2022-08-29T09:12:33.001Z
+        trace_id:
+          type: integer

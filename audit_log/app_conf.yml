@@ -1,0 +1,9 @@
+version: 1
+events:
+  hostname: messager.eastus2.cloudapp.azure.com
+  port: 9092
+  topic: events
+eventCheckInReading:
+  url: http://localhost:8110/get_check_in_reading
+eventBookingConfirmReading:
+  url: http://localhost:8110/get_booking_confirm_reading

@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  description: This API provides audit info
+  version: "1.0.0"
+  title: Audit API
+  contact:
+    email: tpham100@my.bcit.ca
+
+paths:
+  /check_in:
+    get:
+      summary: gets a check in reading from history
+      operationId: app.get_check_in_reading
+      description: Gets check in readings from the event store
+      parameters:
+        - name: index
+          in: query
+          description: Gets the CI at the index in the event store
+          schema:
+            type: integer
+            example: 100
+      responses:
+        "200":
+          description: Successfully returned a check in event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/checkIn"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /booking_confirm:
+    get:
+      summary: gets a booking confirm reading from history
+      operationId: app.get_booking_confirm_reading
+      description: Gets booking confirm reading from the event store
+      parameters:
+        - name: index
+          in: query
+          description: Gets the BC at the index in the event store
+          schema:
+            type: integer
+            example: 100
+      responses:
+        "200":
+          description: Successfully returned a booking confirm event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/bookingConfirm"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+    checkIn:
+      required:
+        - initialDeposit
+        - name
+        - numPeople
+        - reservationCode
+      type: object
+      properties:
+        reservationCode:
+          type: string
+          format: uuid
+          example: 4e8fc70e-2fe2-11ed-a261-0242ac120002
+        name:
+          type: string
+          example: Alan Walker
+        initialDeposit:
+          type: integer
+          example: 1000
+        numPeople:
+          type: integer
+          example: 4
+    bookingConfirm:
+      required:
+        - confirmationCode
+        - name
+        - nights
+        - roomNum
+      type: object
+      properties:
+        confirmationCode:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Alan Walker
+        roomNum:
+          type: integer
+          example: 444
+        nights:
+          type: integer
+          example: 2
+        arriveDate:
+          type: string
+          format: date-time
+          example: 2022-08-29T09:12:33.001Z
