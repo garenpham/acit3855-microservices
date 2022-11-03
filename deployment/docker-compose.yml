@@ -47,12 +47,14 @@ services:
       - my-db:/var/lib/mysql
   receiver:
     image: receiver
+    restart: always
     ports:
       - "8080:8080"
     depends_on:
       - "kafka"
   storage:
     image: storage
+    restart: always
     ports:
       - "8090:8090"
     depends_on:
@@ -60,6 +62,7 @@ services:
       - "db"
   processing:
     image: processing
+    restart: always
     ports:
       - "8100:8100"
     network_mode: "host"
@@ -67,6 +70,7 @@ services:
       - "storage"
   audit_log:
     image: audit_log
+    restart: always
     ports:
       - "8110:8110"
     depends_on:
