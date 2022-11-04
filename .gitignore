@@ -1,6 +1,4 @@
-readings.sqlite
 app.log
 __pycache__
-stats.sqlite
 events.json
 venv
