@@ -4,6 +4,6 @@ events:
   port: 9092
   topic: events
 eventCheckInReading:
-  url: http://localhost:8110/get_check_in_reading
+  url: http://messager.eastus2.cloudapp.azure.com:8110/get_check_in_reading
 eventBookingConfirmReading:
-  url: http://localhost:8110/get_booking_confirm_reading
+  url: http://messager.eastus2.cloudapp.azure.com:8110/get_booking_confirm_reading

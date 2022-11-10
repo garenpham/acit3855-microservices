@@ -2,7 +2,7 @@ version: 1
 datastore:
   user: phamminhtan
   password: Password
-  hostname: localhost
+  hostname: messager.eastus2.cloudapp.azure.com
   port: 3306
   db: events
 events:
