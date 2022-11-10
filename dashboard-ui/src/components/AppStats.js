@@ -46,12 +46,12 @@ export default function AppStats() {
 							<td># BC: {stats['num_bc_readings']}</td>
 						</tr>
 						<tr>
-							<td colspan="2">
+							<td colSpan="2">
 								Max number of people stay: {stats['max_numPeople']}
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
+							<td colSpan="2">
 								Max number of nights spend: {stats['max_numNights']}
 							</td>
 						</tr>
