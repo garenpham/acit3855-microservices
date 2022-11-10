@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import "../App.css";
+import React, { useEffect, useState } from 'react';
+import '../App.css';
 
 export default function EndpointAudit(props) {
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -7,6 +7,7 @@ export default function EndpointAudit(props) {
 	const [error, setError] = useState(null);
 	const rand_val = Math.floor(Math.random() * 100); // Get a random event from the event store
 
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const getAudit = () => {
 		fetch(
 			`http://messager.eastus2.cloudapp.azure.com:8110/${props.endpoint}?index=${rand_val}`
@@ -14,7 +15,7 @@ export default function EndpointAudit(props) {
 			.then((res) => res.json())
 			.then(
 				(result) => {
-					console.log("Received Audit Results for " + props.endpoint);
+					console.log('Received Audit Results for ' + props.endpoint);
 					setLog(result);
 					setIsLoaded(true);
 				},
@@ -30,7 +31,7 @@ export default function EndpointAudit(props) {
 	}, [getAudit]);
 
 	if (error) {
-		return <div className={"error"}>Error found when fetching from API</div>;
+		return <div className={'error'}>Error found when fetching from API</div>;
 	} else if (isLoaded === false) {
 		return <div>Loading...</div>;
 	} else if (isLoaded === true) {
