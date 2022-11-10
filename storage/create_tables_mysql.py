@@ -4,7 +4,7 @@ import yaml
 with open('app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
 
-db_conn = mysql.connector.connect(host=app_config["datastore"]["hostname"], user=app_config["datastore"]["user"],
+db_conn = mysql.connector.connect(host='messager.eastus2.cloudapp.azure.com', user=app_config["datastore"]["user"],
                                   password=app_config["datastore"]["password"])
 
 db_conn.autocommit = True
