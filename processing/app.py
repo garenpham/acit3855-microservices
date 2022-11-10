@@ -126,7 +126,7 @@ def populate_stats():
         body["max_numNights"] = max(item["nights"]
                                     for item in bookingConfirmList)
 
-    stateUpdate = create_stats(body)
+    create_stats(body)
 
     logger.debug("Updated info: " + json.dumps(body))
     logger.info("Periodic Processing is ended")
