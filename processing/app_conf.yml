@@ -2,8 +2,8 @@ version: 1
 datastore:
   filename: stats.sqlite
 scheduler:
-  period_sec: 5
+  period_sec: 4
 eventstoreCheckIn:
-  url: http://messager.eastus2.cloudapp.azure.com:8090/checkIn
+  url: http://localhost:8090/checkIn
 eventstoreBookingConfirm:
-  url: http://messager.eastus2.cloudapp.azure.com:8090/bookingConfirm
+  url: http://localhost:8090/bookingConfirm
