@@ -6,6 +6,6 @@ datastore:
   port: 3306
   db: events
 events:
-  hostname: messager.eastus2.cloudapp.azure.com
+  hostname: kafka
   port: 9092
   topic: events
