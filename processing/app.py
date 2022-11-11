@@ -39,7 +39,8 @@ def get_stats():
         "num_bc_readings": 0,
         "max_numPeople": 0,
         "max_numNights": 0,
-        "last_updated": datetime.datetime.now()
+        "last_updated": datetime.datetime.strptime(datetime.datetime.now(),
+                                                   "%Y-%m-%dT%H:%M:%S")
     }
 
     logger.error("Statistics do not exist")
