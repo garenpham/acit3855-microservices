@@ -39,6 +39,7 @@ def get_stats():
         "num_bc_readings": 0,
         "max_numPeople": 0,
         "max_numNights": 0,
+        "last_updated": datetime.datetime.now()
     }
 
     logger.error("Statistics do not exist")
@@ -123,6 +124,7 @@ def populate_stats():
     else:
         logger.error("Request data failed")
 
+    body['last_updated'] = current_timestamp
     if checkinList != []:
         body["num_ci_readings"] += len(checkinList)
 
