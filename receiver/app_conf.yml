@@ -4,6 +4,6 @@ eventstoreCheckIn:
 eventstoreBookingConfirm:
   url: http://localhost:8090/bookingConfirm
 events:
-  hostname: kafka
+  hostname: messager.eastus2.cloudapp.azure.com
   port: 9092
   topic: events
