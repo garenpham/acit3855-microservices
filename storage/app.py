@@ -122,6 +122,7 @@ def process_messages():
     """ Process event messages """
     hostname = "%s:%d" % (
         app_config["events"]["hostname"], app_config["events"]["port"])
+    logger.info("KAfa hostname: %s" % (hostname))
     client = KafkaClient(hosts=hostname)
     topic = client.topics[str.encode(app_config["events"]["topic"])]
     # Create a consume on a consumer group, that only reads new messages
@@ -159,7 +160,7 @@ logger.info("Connecting to DB. Hostname: %s, Port:%d" % (
 
 
 if __name__ == "__main__":
-    app.run(port=8090)
     t1 = Thread(target=process_messages)
     t1.setDaemon(True)
     t1.start()
+    app.run(port=8090)
