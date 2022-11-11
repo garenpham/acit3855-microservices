@@ -159,7 +159,7 @@ logger.info("Connecting to DB. Hostname: %s, Port:%d" % (
 
 
 if __name__ == "__main__":
+    app.run(port=8090)
     t1 = Thread(target=process_messages)
     t1.setDaemon(True)
     t1.start()
-    app.run(port=8090)
