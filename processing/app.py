@@ -72,18 +72,22 @@ def populate_stats():
 
     body = currentStat[0]
 
-    currentTime = datetime.datetime.now()
-    body["last_updated"] = currentTime.strftime("%Y-%m-%dT%H:%M:%S")
+    current_timestamp = datetime.datetime.now()
 
-    checkinUrl = app_config['eventstoreCheckIn']['url']
-    bookingUrl = app_config['eventstoreBookingConfirm']['url']
+    # checkinUrl = app_config['eventstoreCheckIn']['url']
+    # bookingUrl = app_config['eventstoreBookingConfirm']['url']
+
+    # getCheckinResponse = requests.get(
+    #     checkinUrl,
+    #     headers={"Content-Type": "application/json"},
+    #     params={"timestamp":
+    #             currentTime.strftime("%Y-%m-%dT%H:%M:%S")}
+    # )
 
     getCheckinResponse = requests.get(
-        checkinUrl,
-        headers={"Content-Type": "application/json"},
-        params={"timestamp":
-                currentTime.strftime("%Y-%m-%dT%H:%M:%S")}
-    )
+        app_config['eventstore']['url']+"/checkIn?start_timestamp=" +
+        body["last_updated"] + "&end_timestamp=" +
+        current_timestamp)
 
     trace = str(uuid.uuid4())
 
@@ -98,12 +102,16 @@ def populate_stats():
     else:
         logger.error("Request data failed")
 
+    # getBookingConfirmResponse = requests.get(
+    #     bookingUrl,
+    #     headers={"Content-Type": "application/json"},
+    #     params={"timestamp":
+    #             currentTime.strftime("%Y-%m-%dT%H:%M:%S")}
+    # )
     getBookingConfirmResponse = requests.get(
-        bookingUrl,
-        headers={"Content-Type": "application/json"},
-        params={"timestamp":
-                currentTime.strftime("%Y-%m-%dT%H:%M:%S")}
-    )
+        app_config['eventstore']['url']+"/bookingConfim?start_timestamp=" +
+        body["last_updated"] + "&end_timestamp=" +
+        current_timestamp)
 
     trace = str(uuid.uuid4())
     if getBookingConfirmResponse.status_code == 200:

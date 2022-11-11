@@ -3,6 +3,7 @@ from connexion import NoContent
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import and_
 from base import Base
 from check_in import CheckIn
 from booking_confirm import BookingConfirm
@@ -30,14 +31,16 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 # Your functions here
 
 
-def get_checkin_info(timestamp):
+def get_checkin_info(start_timestamp, end_timestamp):
     """ Gets new check in info after the timestamp """
     session = DB_SESSION()
-    timestamp_datetime = datetime.datetime.strptime(
-        timestamp, "%Y-%m-%dT%H:%M:%S")
-    readings = session.query(CheckIn).filter(CheckIn.date_created >=
-                                             timestamp_datetime).all()
+    start_timestamp_datetime = datetime.datetime.strptime(
+        start_timestamp, "%Y-%m-%dT%H:%M:%S")
+    end_timestamp_datetime = datetime.datetime.strptime(
+        end_timestamp, "%Y-%m-%dT%H:%M:%S")
 
+    readings = session.query(CheckIn).filter(and_(CheckIn.date_created >= start_timestamp_datetime,
+                                                  CheckIn.date_created < end_timestamp_datetime)).all()
     results_list = []
     for reading in readings:
         results_list.append(reading.to_dict())
@@ -45,7 +48,7 @@ def get_checkin_info(timestamp):
     session.close()
 
     logger.info("Query for check in info after %s returns %d results" %
-                (timestamp, len(results_list)))
+                (end_timestamp, len(results_list)))
     return results_list, 200
 
 
@@ -74,13 +77,17 @@ def checkIn(body):
     return NoContent, 201
 
 
-def get_bookingConfirm_info(timestamp):
+def get_bookingConfirm_info(start_timestamp, end_timestamp):
     """ Gets new booking confirm after the timestamp """
     session = DB_SESSION()
-    timestamp_datetime = datetime.datetime.strptime(
-        timestamp, "%Y-%m-%dT%H:%M:%S")
-    readings = session.query(BookingConfirm).filter(BookingConfirm.date_created >=
-                                                    timestamp_datetime).all()
+
+    start_timestamp_datetime = datetime.datetime.strptime(
+        start_timestamp, "%Y-%m-%dT%H:%M:%S")
+    end_timestamp_datetime = datetime.datetime.strptime(
+        end_timestamp, "%Y-%m-%dT%H:%M:%S")
+
+    readings = session.query(BookingConfirm).filter(and_(BookingConfirm.date_created >= start_timestamp_datetime,
+                                                         BookingConfirm.date_created < end_timestamp_datetime)).all()
     results_list = []
     for reading in readings:
         results_list.append(reading.to_dict())
@@ -88,7 +95,7 @@ def get_bookingConfirm_info(timestamp):
     session.close()
 
     logger.info("Query for booking confirmations info after %s returns %d results" %
-                (timestamp, len(results_list)))
+                (end_timestamp, len(results_list)))
     return results_list, 200
 
 

@@ -3,7 +3,9 @@ datastore:
   filename: stats.sqlite
 scheduler:
   period_sec: 5
-eventstoreCheckIn:
-  url: http://localhost:8090/checkIn
-eventstoreBookingConfirm:
-  url: http://localhost:8090/bookingConfirm
+eventstore:
+  url: http://localhost:8090
+# eventstoreCheckIn:
+#   url: http://localhost:8090/checkIn
+# eventstoreBookingConfirm:
+#   url: http://localhost:8090/bookingConfirm
