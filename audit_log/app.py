@@ -36,6 +36,7 @@ def get_check_in_reading(index):
             if msg["type"] == "ci":
                 idx += 1
                 if idx == index:
+                    idx = -1
                     return payload, 200
     except:
         logger.error("No more messages found")
