@@ -39,7 +39,7 @@ def get_stats():
         "num_bc_readings": 0,
         "max_numPeople": 0,
         "max_numNights": 0,
-        "last_updated": datetime.datetime.now()
+        "last_updated": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     }
 
     logger.error("Statistics do not exist")
@@ -73,7 +73,7 @@ def populate_stats():
 
     body = currentStat[0]
 
-    current_timestamp = datetime.datetime.now()
+    current_timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
     # checkinUrl = app_config['eventstoreCheckIn']['url']
     # bookingUrl = app_config['eventstoreBookingConfirm']['url']
@@ -87,8 +87,8 @@ def populate_stats():
 
     getCheckinResponse = requests.get(
         app_config['eventstore']['url']+"/checkIn?start_timestamp=" +
-        body["last_updated"].strftime("%Y-%m-%dT%H:%M:%S") + "&end_timestamp=" +
-        current_timestamp.strftime("%Y-%m-%dT%H:%M:%S"))
+        body["last_updated"] + "&end_timestamp=" +
+        current_timestamp)
 
     trace = str(uuid.uuid4())
 
@@ -111,8 +111,8 @@ def populate_stats():
     # )
     getBookingConfirmResponse = requests.get(
         app_config['eventstore']['url']+"/bookingConfim?start_timestamp=" +
-        body["last_updated"].strftime("%Y-%m-%dT%H:%M:%S") + "&end_timestamp=" +
-        current_timestamp.strftime("%Y-%m-%dT%H:%M:%S"))
+        body["last_updated"] + "&end_timestamp=" +
+        current_timestamp)
 
     trace = str(uuid.uuid4())
     if getBookingConfirmResponse.status_code == 200:
