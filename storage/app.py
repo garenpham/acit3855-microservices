@@ -68,8 +68,6 @@ def checkIn(body):
     session.commit()
     session.close()
 
-    print("1234")
-
     logger.debug('Stored event check in request with a trace id of ' +
                  body["trace_id"])
 
