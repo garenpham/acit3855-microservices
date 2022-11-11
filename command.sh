@@ -1,4 +1,4 @@
-docker image rm -f
+docker image rm -f 
 docker ps
 docker images
 docker exec -it  /bin/bash
