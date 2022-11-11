@@ -39,8 +39,9 @@ def get_check_in_reading(index):
                     idx = -1
                     return payload, 200
     except:
+        idx = -1
         logger.error("No more messages found")
-
+    idx = -1
     logger.error("Could not find CI at index %d" % index)
     return {"message": "Not Found"}, 404
 
