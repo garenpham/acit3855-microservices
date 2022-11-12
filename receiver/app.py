@@ -12,15 +12,11 @@ import uuid
 from pykafka import KafkaClient
 
 
-app = connexion.FlaskApp(__name__, specification_dir="")
-app.add_api("openapi.yaml", strict_validation=True, validate_responses=True)
-
 with open('app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
 
 hostname = "%s:%d" % (
     app_config["events"]["hostname"], app_config["events"]["port"])
-
 for connecting in range(app_config["max_tries"]):
     try:
         client = KafkaClient(hosts=hostname)
@@ -29,14 +25,6 @@ for connecting in range(app_config["max_tries"]):
     except Exception:
         time.sleep(app_config["sleep"])
         continue
-
-with open('log_conf.yml', 'r') as f:
-    log_config = yaml.safe_load(f.read())
-    logging.config.dictConfig(log_config)
-
-logger = logging.getLogger('basicLogger')
-
-print(app_config)
 
 # Your functions here
 
@@ -102,6 +90,17 @@ def bookingConfirm(body):
     producer.produce(msg_str.encode('utf-8'))
     return NoContent, 201
 
+
+app = connexion.FlaskApp(__name__, specification_dir="")
+app.add_api("openapi.yaml", strict_validation=True, validate_responses=True)
+
+with open('log_conf.yml', 'r') as f:
+    log_config = yaml.safe_load(f.read())
+    logging.config.dictConfig(log_config)
+
+logger = logging.getLogger('basicLogger')
+
+print(app_config)
 
 if __name__ == "__main__":
     app.run(port=8080)
