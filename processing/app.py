@@ -110,7 +110,7 @@ def populate_stats():
     #             currentTime.strftime("%Y-%m-%dT%H:%M:%S")}
     # )
     getBookingConfirmResponse = requests.get(
-        app_config['eventstore']['url']+"/bookingConfim?start_timestamp=" +
+        app_config['eventstore']['url']+"/bookingConfirm?start_timestamp=" +
         body["last_updated"] + "&end_timestamp=" +
         current_timestamp)
 
