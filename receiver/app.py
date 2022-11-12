@@ -5,6 +5,7 @@ import connexion
 from connexion import NoContent
 import requests
 import yaml
+import time
 import logging
 import logging.config
 import uuid
@@ -32,10 +33,6 @@ def checkIn(body):
 
     logger.info('Received event check in request with a trace id of '+trace)
     # return response.text, response.status_code
-    hostname = "%s:%d" % (
-        app_config["events"]["hostname"], app_config["events"]["port"])
-    client = KafkaClient(hosts=hostname)
-    topic = client.topics[str.encode(app_config["events"]["topic"])]
     producer = topic.get_sync_producer()
     msg = {"type": "ci",
            "datetime":
@@ -68,10 +65,6 @@ def bookingConfirm(body):
         'Received event booking confirm request with a trace id of '+trace)
 
     # return response.text, response.status_code
-    hostname = "%s:%d" % (
-        app_config["events"]["hostname"], app_config["events"]["port"])
-    client = KafkaClient(hosts=hostname)
-    topic = client.topics[str.encode(app_config["events"]["topic"])]
     producer = topic.get_sync_producer()
     msg = {"type": "bc",
            "datetime":
@@ -88,6 +81,17 @@ app.add_api("openapi.yaml", strict_validation=True, validate_responses=True)
 
 with open('app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
+
+hostname = "%s:%d" % (
+    app_config["events"]["hostname"], app_config["events"]["port"])
+for connecting in range(app_config["max_tries"]):
+    try:
+        client = KafkaClient(hosts=hostname)
+        topic = client.topics[str.encode(app_config["events"]["topic"])]
+        break
+    except Exception:
+        time.sleep(app_config["sleep"])
+        continue
 
 with open('log_conf.yml', 'r') as f:
     log_config = yaml.safe_load(f.read())

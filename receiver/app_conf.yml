@@ -7,3 +7,5 @@ events:
   hostname: messager.eastus2.cloudapp.azure.com
   port: 9092
   topic: events
+max_tries: 10
+sleep: 4
