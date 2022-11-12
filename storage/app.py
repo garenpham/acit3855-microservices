@@ -132,12 +132,12 @@ def process_messages():
     for connecting in range(app_config["max_tries"]):
         try:
             client = KafkaClient(hosts=hostname)
+            topic = client.topics[str.encode(app_config["events"]["topic"])]
             break
         except Exception:
             time.sleep(app_config["sleep"])
             continue
 
-    topic = client.topics[str.encode(app_config["events"]["topic"])]
     # Create a consume on a consumer group, that only reads new messages
     # (uncommitted messages) when the service re-starts (i.e., it doesn't
     # read all the old messages from the history in the message queue).
