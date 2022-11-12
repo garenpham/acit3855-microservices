@@ -10,6 +10,7 @@ from booking_confirm import BookingConfirm
 import yaml
 import logging
 import logging.config
+import time
 import datetime
 import json
 from pykafka import KafkaClient
@@ -127,8 +128,15 @@ def process_messages():
     """ Process event messages """
     hostname = "%s:%d" % (
         app_config["events"]["hostname"], app_config["events"]["port"])
-    logger.info("KAfa hostname: %s" % (hostname))
-    client = KafkaClient(hosts=hostname)
+
+    for connecting in range(app_config["max_tries"]):
+        try:
+            client = KafkaClient(hosts=hostname)
+            break
+        except Exception:
+            time.sleep(app_config["sleep"])
+            continue
+
     topic = client.topics[str.encode(app_config["events"]["topic"])]
     # Create a consume on a consumer group, that only reads new messages
     # (uncommitted messages) when the service re-starts (i.e., it doesn't
