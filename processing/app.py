@@ -7,6 +7,7 @@ import yaml
 import logging
 import logging.config
 import uuid
+import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from stats import Stats
 from sqlalchemy import create_engine
@@ -155,7 +156,16 @@ CORS(app.app)
 app.app.config['CORS_HEADERS'] = 'Content-Type'
 app.add_api("openapi.yaml", strict_validation=True, validate_responses=True)
 
-with open('app_conf.yml', 'r') as f:
+if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
+    print("In Test Environment")
+    app_conf_file = "/config/app_conf.yml"
+    log_conf_file = "/config/log_conf.yml"
+else:
+    print("In Dev Environment")
+    app_conf_file = "app_conf.yml"
+    log_conf_file = "log_conf.yml"
+
+with open(app_conf_file, 'r') as f:
     app_config = yaml.safe_load(f.read())
 
 DB_ENGINE = create_engine("sqlite:///%s" %
@@ -163,7 +173,7 @@ DB_ENGINE = create_engine("sqlite:///%s" %
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
-with open('log_conf.yml', 'r') as f:
+with open(log_conf_file, 'r') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 

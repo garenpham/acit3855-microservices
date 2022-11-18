@@ -5,6 +5,7 @@ import connexion
 from connexion import NoContent
 import requests
 import yaml
+import os
 import time
 import logging
 import logging.config
@@ -12,7 +13,16 @@ import uuid
 from pykafka import KafkaClient
 
 
-with open('app_conf.yml', 'r') as f:
+if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
+    print("In Test Environment")
+    app_conf_file = "/config/app_conf.yml"
+    log_conf_file = "/config/log_conf.yml"
+else:
+    print("In Dev Environment")
+    app_conf_file = "app_conf.yml"
+    log_conf_file = "log_conf.yml"
+
+with open(app_conf_file, 'r') as f:
     app_config = yaml.safe_load(f.read())
 
 hostname = "%s:%d" % (
@@ -94,7 +104,7 @@ def bookingConfirm(body):
 app = connexion.FlaskApp(__name__, specification_dir="")
 app.add_api("openapi.yaml", strict_validation=True, validate_responses=True)
 
-with open('log_conf.yml', 'r') as f:
+with open(log_conf_file, 'r') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
