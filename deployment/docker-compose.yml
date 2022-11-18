@@ -86,6 +86,7 @@ services:
     volumes:
       - /home/phamminhtan/config/processing:/config
       - /home/phamminhtan/logs:/logs
+      - processing-db:/data
     depends_on:
       - 'storage'
   audit_log:
