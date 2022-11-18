@@ -20,8 +20,9 @@ from flask_cors import CORS, cross_origin
 
 
 def create_table():
-    if not os.path.isfile('/home/phamminhtan/data/stats.sqlite'):
-        conn = sqlite3.connect('/home/phamminhtan/data/stats.sqlite')
+    sqlite_file = app_config["datastore"]["filename"]
+    if not os.path.isfile(sqlite_file):
+        conn = sqlite3.connect(sqlite_file)
         c = conn.cursor()
 
         c.execute('''
