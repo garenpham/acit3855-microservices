@@ -59,6 +59,7 @@ services:
       - TARGET_ENV=test
     volumes:
       - /home/phamminhtan/config/receiver:/config
+      - /home/phamminhtan/logs:/logs
     depends_on:
       - 'kafka'
   storage:
@@ -70,6 +71,7 @@ services:
       - TARGET_ENV=test
     volumes:
       - /home/phamminhtan/config/storage:/config
+      - /home/phamminhtan/logs:/logs
     depends_on:
       - 'kafka'
       - 'db'
@@ -83,6 +85,7 @@ services:
       - TARGET_ENV=test
     volumes:
       - /home/phamminhtan/config/processing:/config
+      - /home/phamminhtan/logs:/logs
     depends_on:
       - 'storage'
   audit_log:
@@ -94,6 +97,7 @@ services:
       - TARGET_ENV=test
     volumes:
       - /home/phamminhtan/config/audit_log:/config
+      - /home/phamminhtan/logs:/logs
     depends_on:
       - 'kafka'
   dashboard:
