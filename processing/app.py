@@ -16,26 +16,28 @@ from sqlalchemy.orm import sessionmaker
 from base import Base
 from flask_cors import CORS, cross_origin
 
-
-if not os.path.isfile('/home/phamminhtan/data/stats.sqlite'):
-    conn = sqlite3.connect('/home/phamminhtan/data/stats.sqlite')
-    c = conn.cursor()
-
-    c.execute('''
-            CREATE TABLE IF NOT EXISTS stats
-            (id INTEGER PRIMARY KEY ASC,
-            num_ci_readings INTEGER NOT NULL,
-            num_bc_readings INTEGER NOT NULL,
-            max_numPeople INTEGER,
-            max_numNights INTEGER,
-            last_updated VARCHAR(100) NOT NULL)
-    ''')
-
-    conn.commit()
-    conn.close()
-
-
 # Your functions here
+
+
+def create_table():
+    if not os.path.isfile('/home/phamminhtan/data/stats.sqlite'):
+        conn = sqlite3.connect('/home/phamminhtan/data/stats.sqlite')
+        c = conn.cursor()
+
+        c.execute('''
+                CREATE TABLE IF NOT EXISTS stats
+                (id INTEGER PRIMARY KEY ASC,
+                num_ci_readings INTEGER NOT NULL,
+                num_bc_readings INTEGER NOT NULL,
+                max_numPeople INTEGER,
+                max_numNights INTEGER,
+                last_updated VARCHAR(100) NOT NULL)
+        ''')
+
+        conn.commit()
+        conn.close()
+
+
 def get_stats():
     '''Get all the Stats objects from the database in descending order'''
     logger.info("Requesting process has started")
@@ -200,5 +202,6 @@ logger = logging.getLogger('basicLogger')
 print(app_config)
 
 if __name__ == "__main__":
+    create_table()
     init_scheduler()
     app.run(port=8100, use_reloader=False)
