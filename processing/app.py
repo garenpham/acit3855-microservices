@@ -17,8 +17,8 @@ from base import Base
 from flask_cors import CORS, cross_origin
 
 
-if not os.path.isfile('/data/stats.sqlite'):
-    conn = sqlite3.connect('/data/stats.sqlite')
+if not os.path.isfile('/home/phamminhtan/data/stats.sqlite'):
+    conn = sqlite3.connect('/home/phamminhtan/data/stats.sqlite')
     c = conn.cursor()
 
     c.execute('''
