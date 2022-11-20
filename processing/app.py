@@ -204,7 +204,7 @@ logger = logging.getLogger('basicLogger')
 print(app_config)
 
 if __name__ == "__main__":
-    sql_path = '/home/phamminhtan' + app_config["datastore"]["filename"]
+    sql_path = '~' + app_config["datastore"]["filename"]
     if not os.path.isfile(sql_path):
         create_table(sql_path)
     init_scheduler()
