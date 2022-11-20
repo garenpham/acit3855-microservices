@@ -19,24 +19,22 @@ from flask_cors import CORS, cross_origin
 # Your functions here
 
 
-def create_table():
-    sqlite_file = app_config["datastore"]["filename"]
-    if not os.path.isfile(sqlite_file):
-        conn = sqlite3.connect(sqlite_file)
-        c = conn.cursor()
+def create_table(sql_path):
+    conn = sqlite3.connect(sql_path)
+    c = conn.cursor()
 
-        c.execute('''
-                CREATE TABLE IF NOT EXISTS stats
-                (id INTEGER PRIMARY KEY ASC,
-                num_ci_readings INTEGER NOT NULL,
-                num_bc_readings INTEGER NOT NULL,
-                max_numPeople INTEGER,
-                max_numNights INTEGER,
-                last_updated VARCHAR(100) NOT NULL)
-        ''')
+    c.execute('''
+            CREATE TABLE IF NOT EXISTS stats
+            (id INTEGER PRIMARY KEY ASC,
+            num_ci_readings INTEGER NOT NULL,
+            num_bc_readings INTEGER NOT NULL,
+            max_numPeople INTEGER,
+            max_numNights INTEGER,
+            last_updated VARCHAR(100) NOT NULL)
+    ''')
 
-        conn.commit()
-        conn.close()
+    conn.commit()
+    conn.close()
 
 
 def get_stats():
@@ -203,6 +201,8 @@ logger = logging.getLogger('basicLogger')
 print(app_config)
 
 if __name__ == "__main__":
-    create_table()
+    sql_path = '/home/phamminhtan' + app_config["datastore"]["filename"]
+    if not os.path.isfile(sql_path):
+        create_table(sql_path)
     init_scheduler()
     app.run(port=8100, use_reloader=False)
