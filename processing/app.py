@@ -21,8 +21,7 @@ from flask_cors import CORS, cross_origin
 
 
 def create_table(sql_path):
-    sql_path2 = '/home/phamminhtan%s' % (app_config["datastore"]["filename"])
-    logger.info(sql_path2)
+    logger.info(sql_path)
 
     conn = sqlite3.connect(sql_path)
     c = conn.cursor()
@@ -206,7 +205,7 @@ if __name__ == "__main__":
 
     for connecting in range(app_config["datastore"]["max_tries"]):
         try:
-            sql_path = '/home/phamminhtan/%s' % (
+            sql_path = '..%s' % (
                 app_config["datastore"]["filename"])
             if not os.path.isfile(sql_path):
                 create_table(sql_path)
