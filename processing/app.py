@@ -196,7 +196,7 @@ with open(log_conf_file, 'r') as f:
 
 logger = logging.getLogger('basicLogger')
 
-DB_ENGINE = create_engine("sqlite:///%s" %
+DB_ENGINE = create_engine("sqlite:///..%s" %
                           app_config["datastore"]["filename"])
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
