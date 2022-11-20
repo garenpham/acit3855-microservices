@@ -8,7 +8,6 @@ import logging
 import logging.config
 import uuid
 import sqlite3
-import time
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from stats import Stats
@@ -194,10 +193,10 @@ with open(log_conf_file, 'r') as f:
 
 logger = logging.getLogger('basicLogger')
 
-logger.info("sqlite://%s" %
-            app_config["datastore"]["filename"])
-DB_ENGINE = create_engine("sqlite://%s" %
-                          app_config["datastore"]["filename"])
+
+sqliteUrl = "sqlite:///%s" % app_config["datastore"]["filename"]
+logger.info(sqliteUrl)
+DB_ENGINE = create_engine(sqliteUrl)
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
