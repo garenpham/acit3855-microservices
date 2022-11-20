@@ -21,8 +21,6 @@ from flask_cors import CORS, cross_origin
 
 
 def create_table(sql_path):
-    logger.info(sql_path)
-
     conn = sqlite3.connect(sql_path)
     c = conn.cursor()
 
@@ -196,22 +194,15 @@ with open(log_conf_file, 'r') as f:
 
 logger = logging.getLogger('basicLogger')
 
-DB_ENGINE = create_engine("sqlite:///..%s" %
+DB_ENGINE = create_engine("sqlite:////%s" %
                           app_config["datastore"]["filename"])
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
 if __name__ == "__main__":
-
-    for connecting in range(app_config["datastore"]["max_tries"]):
-        try:
-            sql_path = '..%s' % (
-                app_config["datastore"]["filename"])
-            if not os.path.isfile(sql_path):
-                create_table(sql_path)
-            break
-        except Exception:
-            time.sleep(app_config["datastore"]["sleep"])
-            continue
+    sql_path = '..%s' % (
+        app_config["datastore"]["filename"])
+    if not os.path.isfile(sql_path):
+        create_table(sql_path)
     init_scheduler()
     app.run(port=8100, use_reloader=False)
