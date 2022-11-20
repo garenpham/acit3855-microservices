@@ -194,16 +194,15 @@ with open(log_conf_file, 'r') as f:
 logger = logging.getLogger('basicLogger')
 
 
-sqliteUrl = "sqlite:///%s" % app_config["datastore"]["filename"]
+sqliteUrl = "sqlite:///processing-db:%s" % app_config["datastore"]["filename"]
 logger.info(sqliteUrl)
 DB_ENGINE = create_engine(sqliteUrl)
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
 if __name__ == "__main__":
-    # sql_path = '..%s' % (
-    #     app_config["datastore"]["filename"])
-    # if not os.path.isfile(sql_path):
-    #     create_table(sql_path)
+    sql_path = 'processing-db:%s' % app_config["datastore"]["filename"]
+    if not os.path.isfile(sql_path):
+        create_table(sql_path)
     init_scheduler()
     app.run(port=8100, use_reloader=False)
