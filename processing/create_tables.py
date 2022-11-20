@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('~/data/stats.sqlite')
+conn = sqlite3.connect('/home/phamminhtan/data/stats.sqlite')
 c = conn.cursor()
 
 c.execute('''
