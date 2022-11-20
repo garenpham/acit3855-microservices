@@ -1,6 +1,6 @@
 version: 1
 datastore:
-  filename: /data/stats.sqlite
+  filename: stats.sqlite
   max_tries: 10
   sleep: 4
 scheduler:
