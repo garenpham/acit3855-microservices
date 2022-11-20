@@ -191,6 +191,12 @@ else:
 with open(app_conf_file, 'r') as f:
     app_config = yaml.safe_load(f.read())
 
+with open(log_conf_file, 'r') as f:
+    log_config = yaml.safe_load(f.read())
+    logging.config.dictConfig(log_config)
+
+logger = logging.getLogger('basicLogger')
+
 sql_path = '/home/phamminhtan/%s' % (app_config["datastore"]["filename"])
 if not os.path.isfile(sql_path):
     create_table(sql_path)
@@ -199,14 +205,6 @@ DB_ENGINE = create_engine("sqlite:///%s" %
                           app_config["datastore"]["filename"])
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
-
-with open(log_conf_file, 'r') as f:
-    log_config = yaml.safe_load(f.read())
-    logging.config.dictConfig(log_config)
-
-logger = logging.getLogger('basicLogger')
-
-print(app_config)
 
 if __name__ == "__main__":
 
