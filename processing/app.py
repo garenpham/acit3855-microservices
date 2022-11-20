@@ -8,6 +8,7 @@ import logging
 import logging.config
 import uuid
 import sqlite3
+import time
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from stats import Stats
@@ -205,7 +206,13 @@ print(app_config)
 
 if __name__ == "__main__":
     sql_path = '/home/phamminhtan' + app_config["datastore"]["filename"]
-    if not os.path.isfile(sql_path):
-        create_table(sql_path)
+    for connecting in range(app_config["datastore"]["max_tries"]):
+        try:
+            if not os.path.isfile(sql_path):
+                create_table(sql_path)
+            break
+        except Exception:
+            time.sleep(app_config["datastore"]["sleep"])
+            continue
     init_scheduler()
     app.run(port=8100, use_reloader=False)
