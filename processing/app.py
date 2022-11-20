@@ -197,10 +197,6 @@ with open(log_conf_file, 'r') as f:
 
 logger = logging.getLogger('basicLogger')
 
-sql_path = '/home/phamminhtan/%s' % (app_config["datastore"]["filename"])
-if not os.path.isfile(sql_path):
-    create_table(sql_path)
-
 DB_ENGINE = create_engine("sqlite:///%s" %
                           app_config["datastore"]["filename"])
 Base.metadata.bind = DB_ENGINE
@@ -208,12 +204,15 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
 if __name__ == "__main__":
 
-    # for connecting in range(app_config["datastore"]["max_tries"]):
-    #     try:
-
-    #         break
-    #     except Exception:
-    #         time.sleep(app_config["datastore"]["sleep"])
-    #         continue
+    for connecting in range(app_config["datastore"]["max_tries"]):
+        try:
+            sql_path = '/home/phamminhtan/%s' % (
+                app_config["datastore"]["filename"])
+            if not os.path.isfile(sql_path):
+                create_table(sql_path)
+            break
+        except Exception:
+            time.sleep(app_config["datastore"]["sleep"])
+            continue
     init_scheduler()
     app.run(port=8100, use_reloader=False)
