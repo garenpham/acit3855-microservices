@@ -40,32 +40,30 @@ def create_table(sql_path):
 
 def get_status(body):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        res = sock.connect_ex(('localhost', 8080))
-    if res == 0:
-        body["receiver"] = "Down"
-    else:
-        body["receiver"] = "Up"
+        res_receiver = sock.connect_ex(('localhost', 8080))
+        if res_receiver == 0:
+            body["receiver"] = "Down"
+        else:
+            body["receiver"] = "Up"
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        res = sock.connect_ex(('localhost', 8090))
-    if res == 0:
-        body["storage"] = "Down"
-    else:
-        body["storage"] = "Up"
+        res_storage = sock.connect_ex(('localhost', 8090))
+        if res_storage == 0:
+            body["storage"] = "Down"
+        else:
+            body["storage"] = "Up"
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        res = sock.connect_ex(('localhost', 8100))
-    if res == 0:
-        body["processing"] = "Down"
-    else:
-        body["processing"] = "Up"
+        res_processing = sock.connect_ex(('localhost', 8100))
+        if res_processing == 0:
+            body["processing"] = "Down"
+        else:
+            body["processing"] = "Up"
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        res = sock.connect_ex(('localhost', 8110))
-    if res == 0:
-        body["audit"] = "Down"
-    else:
-        body["audit"] = "Up"
+        res_audit = sock.connect_ex(('localhost', 8110))
+        if res_audit == 0:
+            body["audit"] = "Down"
+        else:
+            body["audit"] = "Up"
+
     return body
 
 
@@ -128,7 +126,9 @@ def populate_healths():
 
     current_timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
-    create_healths(get_status(body))
+    body = get_status(body)
+
+    create_healths(body)
 
     logger.debug("Updated info: " + json.dumps(body))
     logger.info("Health Check is ended")
