@@ -8,8 +8,8 @@ class Healths(Base):
     id = Column(Integer, primary_key=True)
     receiver = Column(String, nullable=False)
     storage = Column(String, nullable=False)
-    processing = Column(String, nullable=True)
-    audit = Column(String, nullable=True)
+    processing = Column(String, nullable=False)
+    audit = Column(String, nullable=False)
     last_updated = Column(DateTime, nullable=False)
 
     def __init__(self, receiver, storage,

@@ -66,23 +66,41 @@ def get_status(body):
                 time.sleep(app_config["scheduler"]['sleep'])
                 continue
 
-        res_storage = sock.connect_ex(('localhost', 8090))
-        if res_storage == 0:
-            body["storage"] = "Down"
-        else:
-            body["storage"] = "Up"
+        for sec in range(app_config["scheduler"]["max_tries"]):
+            try:
+                res_storage = sock.connect_ex(('localhost', 8090))
+                if res_storage == 0:
+                    body["storage"] = "Down"
+                else:
+                    body["storage"] = "Up"
+                break
+            except Exception:
+                time.sleep(app_config["scheduler"]['sleep'])
+                continue
 
-        res_processing = sock.connect_ex(('localhost', 8100))
-        if res_processing == 0:
-            body["processing"] = "Down"
-        else:
-            body["processing"] = "Up"
+        for sec in range(app_config["scheduler"]["max_tries"]):
+            try:
+                res_processing = sock.connect_ex(('localhost', 8100))
+                if res_processing == 0:
+                    body["processing"] = "Down"
+                else:
+                    body["processing"] = "Up"
+                break
+            except Exception:
+                time.sleep(app_config["scheduler"]['sleep'])
+                continue
 
-        res_audit = sock.connect_ex(('localhost', 8110))
-        if res_audit == 0:
-            body["audit"] = "Down"
-        else:
-            body["audit"] = "Up"
+        for sec in range(app_config["scheduler"]["max_tries"]):
+            try:
+                res_audit = sock.connect_ex(('localhost', 8110))
+                if res_audit == 0:
+                    body["audit"] = "Down"
+                else:
+                    body["audit"] = "Up"
+                break
+            except Exception:
+                time.sleep(app_config["scheduler"]['sleep'])
+                continue
 
     return body
 
