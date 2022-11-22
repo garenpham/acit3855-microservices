@@ -55,52 +55,40 @@ def create_table(sql_path):
 def get_status(body):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         for sec in range(app_config["scheduler"]["max_tries"]):
-            try:
-                res = sock.connect_ex(('localhost', 8080))
-                if res == 0:
-                    body["receiver"] = "Down"
-                else:
-                    body["receiver"] = "Up"
-                break
-            except Exception:
+            res = sock.connect_ex(('localhost', 8080))
+            if res == 0:
+                body["receiver"] = "Down"
                 time.sleep(app_config["scheduler"]['sleep'])
-                continue
+            else:
+                body["receiver"] = "Up"
+                break
 
         for sec in range(app_config["scheduler"]["max_tries"]):
-            try:
-                res = sock.connect_ex(('localhost', 8090))
-                if res == 0:
-                    body["storage"] = "Down"
-                else:
-                    body["storage"] = "Up"
-                break
-            except Exception:
+            res = sock.connect_ex(('localhost', 8090))
+            if res == 0:
+                body["storage"] = "Down"
                 time.sleep(app_config["scheduler"]['sleep'])
-                continue
+            else:
+                body["storage"] = "Up"
+                break
 
         for sec in range(app_config["scheduler"]["max_tries"]):
-            try:
-                res = sock.connect_ex(('localhost', 8100))
-                if res == 0:
-                    body["processing"] = "Down"
-                else:
-                    body["processing"] = "Up"
-                break
-            except Exception:
+            res = sock.connect_ex(('localhost', 8100))
+            if res == 0:
+                body["processing"] = "Down"
                 time.sleep(app_config["scheduler"]['sleep'])
-                continue
+            else:
+                body["processing"] = "Up"
+                break
 
         for sec in range(app_config["scheduler"]["max_tries"]):
-            try:
-                res = sock.connect_ex(('localhost', 8110))
-                if res == 0:
-                    body["audit"] = "Down"
-                else:
-                    body["audit"] = "Up"
-                break
-            except Exception:
+            res = sock.connect_ex(('localhost', 8110))
+            if res == 0:
+                body["audit"] = "Down"
                 time.sleep(app_config["scheduler"]['sleep'])
-                continue
+            else:
+                body["audit"] = "Up"
+                break
 
     return body
 
