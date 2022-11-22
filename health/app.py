@@ -56,8 +56,8 @@ def get_status(body):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         for sec in range(app_config["scheduler"]["max_tries"]):
             try:
-                res_receiver = sock.connect_ex(('localhost', 8080))
-                if res_receiver == 0:
+                res = sock.connect_ex(('localhost', 8080))
+                if res == 0:
                     body["receiver"] = "Down"
                 else:
                     body["receiver"] = "Up"
@@ -68,8 +68,8 @@ def get_status(body):
 
         for sec in range(app_config["scheduler"]["max_tries"]):
             try:
-                res_storage = sock.connect_ex(('localhost', 8090))
-                if res_storage == 0:
+                res = sock.connect_ex(('localhost', 8090))
+                if res == 0:
                     body["storage"] = "Down"
                 else:
                     body["storage"] = "Up"
@@ -80,8 +80,8 @@ def get_status(body):
 
         for sec in range(app_config["scheduler"]["max_tries"]):
             try:
-                res_processing = sock.connect_ex(('localhost', 8100))
-                if res_processing == 0:
+                res = sock.connect_ex(('localhost', 8100))
+                if res == 0:
                     body["processing"] = "Down"
                 else:
                     body["processing"] = "Up"
@@ -92,8 +92,8 @@ def get_status(body):
 
         for sec in range(app_config["scheduler"]["max_tries"]):
             try:
-                res_audit = sock.connect_ex(('localhost', 8110))
-                if res_audit == 0:
+                res = sock.connect_ex(('localhost', 8110))
+                if res == 0:
                     body["audit"] = "Down"
                 else:
                     body["audit"] = "Up"
