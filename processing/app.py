@@ -201,8 +201,6 @@ Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
 if __name__ == "__main__":
-    sql_path = app_config["datastore"]["filename"]
-    if not os.path.isfile(sql_path):
-        create_table(sql_path)
+    create_table(app_config["datastore"]["filename"])
     init_scheduler()
     app.run(port=8100, use_reloader=False)
