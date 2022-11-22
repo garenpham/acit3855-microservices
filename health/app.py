@@ -80,7 +80,6 @@ def get_status(body):
                 app_config['storage_url']+"/bookingConfirm?start_timestamp=" +
                 body["last_updated"] + "&end_timestamp=" +
                 datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
-            logger.info(storage_check.status_code)
             body["storage"] = "Up"
             break
         except Exception:
@@ -88,6 +87,17 @@ def get_status(body):
             time.sleep(app_config["scheduler"]['sleep'])
             continue
 
+    for sec in range(app_config["scheduler"]["max_tries"]):
+        try:
+            processing_check = requests.get(
+                app_config['processing_url']+"/stats")
+            logger.info(processing_check.status_code)
+            body["processing"] = "Up"
+            break
+        except Exception:
+            body["processing"] = "Down"
+            time.sleep(app_config["scheduler"]['sleep'])
+            continue
     return body
 
 
