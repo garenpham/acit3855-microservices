@@ -10,12 +10,26 @@ import uuid
 import sqlite3
 import os
 import socket
+import time
 from apscheduler.schedulers.background import BackgroundScheduler
 from healths import Healths
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from base import Base
 from flask_cors import CORS, cross_origin
+
+
+if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
+    print("In Test Environment")
+    app_conf_file = "/config/app_conf.yml"
+    log_conf_file = "/config/log_conf.yml"
+else:
+    print("In Dev Environment")
+    app_conf_file = "app_conf.yml"
+    log_conf_file = "log_conf.yml"
+
+with open(app_conf_file, 'r') as f:
+    app_config = yaml.safe_load(f.read())
 
 # Your functions here
 
@@ -40,11 +54,17 @@ def create_table(sql_path):
 
 def get_status(body):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        res_receiver = sock.connect_ex(('localhost', 8080))
-        if res_receiver == 0:
-            body["receiver"] = "Down"
-        else:
-            body["receiver"] = "Up"
+        for sec in range(app_config["scheduler"]["max_tries"]):
+            try:
+                res_receiver = sock.connect_ex(('localhost', 8080))
+                if res_receiver == 0:
+                    body["receiver"] = "Down"
+                else:
+                    body["receiver"] = "Up"
+                break
+            except Exception:
+                time.sleep(app_config["scheduler"]['sleep'])
+                continue
 
         res_storage = sock.connect_ex(('localhost', 8090))
         if res_storage == 0:
@@ -148,18 +168,6 @@ app = connexion.FlaskApp(__name__, specification_dir="")
 CORS(app.app)
 app.app.config['CORS_HEADERS'] = 'Content-Type'
 app.add_api("openapi.yaml", strict_validation=True, validate_responses=True)
-
-if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
-    print("In Test Environment")
-    app_conf_file = "/config/app_conf.yml"
-    log_conf_file = "/config/log_conf.yml"
-else:
-    print("In Dev Environment")
-    app_conf_file = "app_conf.yml"
-    log_conf_file = "log_conf.yml"
-
-with open(app_conf_file, 'r') as f:
-    app_config = yaml.safe_load(f.read())
 
 with open(log_conf_file, 'r') as f:
     log_config = yaml.safe_load(f.read())
