@@ -93,6 +93,8 @@ def get_health():
         "last_updated": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     }
 
+    static_list = get_status(static_list)
+
     logger.error("Healths do not exist")
     logger.info("Requesting healths has ended")
     return static_list, 404
