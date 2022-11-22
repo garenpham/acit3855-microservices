@@ -101,7 +101,7 @@ def get_status(body):
     for sec in range(app_config["scheduler"]["max_tries"]):
         try:
             health_check = requests.get(
-                app_config["audit_url"]+"booking_confirm?index=0")
+                app_config["audit_url"]+"/booking_confirm?index=0")
             logger.info(health_check.status_code)
             body["audit"] = "Up"
             break
