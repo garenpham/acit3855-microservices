@@ -1,0 +1,15 @@
+version: 1
+scheduler:
+  period_sec: 20
+  max_tries: 10
+  sleep: 4
+datastore:
+  filename: /data/data.sqlite
+receiver:
+  url: http://localhost:8080
+storage:
+  url: http://localhost:8090
+processing:
+  url: http://localhost:8100
+audit:
+  url: http://localhost:8110

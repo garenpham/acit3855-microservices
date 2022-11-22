@@ -101,6 +101,23 @@ services:
       - /home/phamminhtan/logs:/logs
     depends_on:
       - 'kafka'
+  health:
+    image: health
+    restart: always
+    ports:
+      - '8120:8120'
+    network_mode: 'host'
+    environment:
+      - TARGET_ENV=test
+    volumes:
+      - /home/phamminhtan/config/health:/config
+      - /home/phamminhtan/logs:/logs
+      - health-db:/data
+    depends_on:
+      - 'receiver'
+      - 'storage'
+      - 'processing'
+      - 'audit_log'
   dashboard:
     image: dashboard
     restart: always
@@ -113,3 +130,4 @@ services:
 volumes:
   my-db:
   processing-db:
+  health-db:
