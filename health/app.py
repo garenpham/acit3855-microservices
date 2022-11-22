@@ -61,19 +61,21 @@ def get_status(body):
             "nights": 0,
             "arriveDate": "2022-00-00"
         }
-        receiver_check = requests.post(
-            app_config["receiver_url"],
-            headers={"Content-Type": "application/json"},
-            data=json.dumps(receiver_body),
-        )
-        logger.info(receiver_check.status_code)
-        if receiver_check.status_code == 201:
-            body["receiver"] = "Up"
+        try:
+            receiver_check = requests.post(
+                app_config["receiver_url"],
+                headers={"Content-Type": "application/json"},
+                data=json.dumps(receiver_body),
+            )
+            logger.info(receiver_check.status_code)
+            if receiver_check.status_code == 201:
+                body["receiver"] = "Up"
             break
-        else:
+        except Exception:
             body["receiver"] = "Down"
-        time.sleep(app_config["scheduler"]['sleep'])
-    time.sleep(app_config["scheduler"]['sleep'])
+            time.sleep(app_config["scheduler"]['sleep'])
+            continue
+
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         #     for sec in range(app_config["scheduler"]["max_tries"]):
         #         res = sock.connect_ex(('localhost', 8080))
