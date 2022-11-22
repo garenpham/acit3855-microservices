@@ -76,8 +76,7 @@ def create_stats(body):
                   body["num_bc_readings"],
                   body["max_numPeople"],
                   body["max_numNights"],
-                  datetime.datetime.strptime(body["last_updated"],
-                                             "%Y-%m-%dT%H:%M:%S"))
+                  datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
     session.add(stats)
     session.commit()
     session.close()
