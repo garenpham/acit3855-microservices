@@ -154,7 +154,8 @@ def create_healths(body):
                       body["storage"],
                       body["processing"],
                       body["audit"],
-                      datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
+                      datetime.datetime.strptime(body["last_updated"],
+                                                 "%Y-%m-%dT%H:%M:%S"))
     session.add(healths)
     session.commit()
     session.close()
@@ -169,6 +170,8 @@ def populate_healths():
     currentStat = get_health()
 
     body = get_status(currentStat[0])
+
+    body['last_updated'] = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
     create_healths(body)
 
