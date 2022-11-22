@@ -64,7 +64,7 @@ def get_status(body):
         receiver_check = requests.post(
             app_config["receiver_url"],
             headers={"Content-Type": "application/json"},
-            data=json.dumps(receiver_body),
+            data=receiver_body,
         )
         if receiver_check.status_code == 200:
             body["receiver"] = "Up"
@@ -169,9 +169,7 @@ def populate_healths():
 
     currentStat = get_health()
 
-    body = currentStat[0]
-
-    body = get_status(body)
+    body = get_status(currentStat[0])
 
     create_healths(body)
 
