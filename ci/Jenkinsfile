@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Python Lint') {
             steps {
-                sh 'cd ..; pylint --fail-under=5 ./3855Pipeline; cd 3855Pipeline'
+                sh 'cd ..; pylint --fail-under=5 ./3855; cd 3855'
             }
                 
         }
