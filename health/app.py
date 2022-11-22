@@ -38,6 +38,37 @@ def create_table(sql_path):
     conn.close()
 
 
+def get_status(body):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        res = sock.connect_ex(('localhost', 8080))
+    if res == 0:
+        body["receiver"] = "Down"
+    else:
+        body["receiver"] = "Up"
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        res = sock.connect_ex(('localhost', 8090))
+    if res == 0:
+        body["storage"] = "Down"
+    else:
+        body["storage"] = "Up"
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        res = sock.connect_ex(('localhost', 8100))
+    if res == 0:
+        body["processing"] = "Down"
+    else:
+        body["processing"] = "Up"
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        res = sock.connect_ex(('localhost', 8110))
+    if res == 0:
+        body["audit"] = "Down"
+    else:
+        body["audit"] = "Up"
+    return body
+
+
 def get_health():
     '''Get all the Stats objects from the database in descending order'''
     logger.info("Requesting healths has started")
@@ -97,34 +128,7 @@ def populate_healths():
 
     current_timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        res = sock.connect_ex(('localhost', 8080))
-    if res == 0:
-        body["receiver"] = "Down"
-    else:
-        body["receiver"] = "Up"
-
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        res = sock.connect_ex(('localhost', 8090))
-    if res == 0:
-        body["storage"] = "Down"
-    else:
-        body["storage"] = "Up"
-
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        res = sock.connect_ex(('localhost', 8100))
-    if res == 0:
-        body["processing"] = "Down"
-    else:
-        body["processing"] = "Up"
-
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        res = sock.connect_ex(('localhost', 8110))
-    if res == 0:
-        body["audit"] = "Down"
-    else:
-        body["audit"] = "Up"
-    create_healths(body)
+    create_healths(get_status(body))
 
     logger.debug("Updated info: " + json.dumps(body))
     logger.info("Health Check is ended")
