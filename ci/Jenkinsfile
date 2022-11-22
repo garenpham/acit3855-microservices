@@ -1,27 +1,26 @@
-def call(dockerRepoName, imageName, portNum){
-    pipeline {
-        agent any
-        parameters {
-            booleanParam(defaultValue: false, description: 'Deploy Audit Service', name:
-        'DEPLOY_AUDIT')
-            booleanParam(defaultValue: false, description: 'Deploy Dashboard-UI', name:
-        'DEPLOY_DASHBOARD')
-            booleanParam(defaultValue: false, description: 'Deploy Health Service', name:
-        'DEPLOY_HEALTH')
-            booleanParam(defaultValue: false, description: 'Deploy Processing Service', name:
-        'DEPLOY_PROCESSING')
-            booleanParam(defaultValue: false, description: 'Deploy Receiver Service', name:
-        'DEPLOY_RECEIVER')
-            booleanParam(defaultValue: false, description: 'Deploy Storage Service', name:
-        'DEPLOY_STORAGE')
-        }
-        stages{
-            stage('Python Lint') {
-                steps {
-                    sh 'cd ..; pylint --fail-under=5 ./3855Pipeline; cd 3855Pipeline'
-                }
-                    
+pipeline {
+    agent any
+    parameters {
+        booleanParam(defaultValue: false, description: 'Deploy Audit Service', name:
+    'DEPLOY_AUDIT')
+        booleanParam(defaultValue: false, description: 'Deploy Dashboard-UI', name:
+    'DEPLOY_DASHBOARD')
+        booleanParam(defaultValue: false, description: 'Deploy Health Service', name:
+    'DEPLOY_HEALTH')
+        booleanParam(defaultValue: false, description: 'Deploy Processing Service', name:
+    'DEPLOY_PROCESSING')
+        booleanParam(defaultValue: false, description: 'Deploy Receiver Service', name:
+    'DEPLOY_RECEIVER')
+        booleanParam(defaultValue: false, description: 'Deploy Storage Service', name:
+    'DEPLOY_STORAGE')
+    }
+    stages {
+        stage('Python Lint') {
+            steps {
+                sh 'cd ..; pylint --fail-under=5 ./3855Pipeline; cd 3855Pipeline'
             }
+                
         }
     }
 }
+
