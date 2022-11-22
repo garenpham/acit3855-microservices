@@ -57,9 +57,9 @@ def get_status(body):
         receiver_body = {
             "confirmationCode": "Test",
             "name": "test",
-            "roomNum": 111,
-            "nights": 1,
-            "arriveDate": "2022-01-01"
+            "roomNum": 0,
+            "nights": 0,
+            "arriveDate": "2022-00-00"
         }
         receiver_check = requests.post(
             app_config["receiver_url"],
@@ -71,7 +71,8 @@ def get_status(body):
             break
         else:
             body["receiver"] = "Down"
-            time.sleep(app_config["scheduler"]['sleep'])
+        time.sleep(app_config["scheduler"]['sleep'])
+    time.sleep(app_config["scheduler"]['sleep'])
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         #     for sec in range(app_config["scheduler"]["max_tries"]):
         #         res = sock.connect_ex(('localhost', 8080))
@@ -169,8 +170,6 @@ def populate_healths():
     currentStat = get_health()
 
     body = currentStat[0]
-
-    current_timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
     body = get_status(body)
 
