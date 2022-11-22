@@ -67,51 +67,27 @@ def get_status(body):
                 headers={"Content-Type": "application/json"},
                 data=json.dumps(receiver_body),
             )
-            logger.info(receiver_check.status_code)
-            if receiver_check.status_code == 201:
-                body["receiver"] = "Up"
+            body["receiver"] = "Up"
             break
         except Exception:
             body["receiver"] = "Down"
             time.sleep(app_config["scheduler"]['sleep'])
             continue
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        #     for sec in range(app_config["scheduler"]["max_tries"]):
-        #         res = sock.connect_ex(('localhost', 8080))
-        #         if res == 0:
-        #             body["receiver"] = "Down"
-        #             time.sleep(app_config["scheduler"]['sleep'])
-        #         else:
-        #             body["receiver"] = "Up"
-        #             break
+    for sec in range(app_config["scheduler"]["max_tries"]):
+        try:
+            storage_check = requests.get(
+                app_config['storage_url']+"/bookingConfirm?start_timestamp=" +
+                body["last_updated"] + "&end_timestamp=" +
+                datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
+            logger.info(storage_check.status_code)
+            body["storage"] = "Up"
+            break
+        except Exception:
+            body["storage"] = "Down"
+            time.sleep(app_config["scheduler"]['sleep'])
+            continue
 
-        for sec in range(app_config["scheduler"]["max_tries"]):
-            res = sock.connect_ex(('localhost', 8090))
-            if res == 0:
-                body["storage"] = "Down"
-                time.sleep(app_config["scheduler"]['sleep'])
-            else:
-                body["storage"] = "Up"
-                break
-
-        for sec in range(app_config["scheduler"]["max_tries"]):
-            res = sock.connect_ex(('localhost', 8100))
-            if res == 0:
-                body["processing"] = "Down"
-                time.sleep(app_config["scheduler"]['sleep'])
-            else:
-                body["processing"] = "Up"
-                break
-
-        for sec in range(app_config["scheduler"]["max_tries"]):
-            res = sock.connect_ex(('localhost', 8110))
-            if res == 0:
-                body["audit"] = "Down"
-                time.sleep(app_config["scheduler"]['sleep'])
-            else:
-                body["audit"] = "Up"
-                break
     return body
 
 
