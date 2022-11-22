@@ -62,7 +62,7 @@ def get_status(body):
             "arriveDate": "2022-00-00"
         }
         try:
-            receiver_check = requests.post(
+            health_check = requests.post(
                 app_config["receiver_url"],
                 headers={"Content-Type": "application/json"},
                 data=json.dumps(receiver_body),
@@ -76,7 +76,7 @@ def get_status(body):
 
     for sec in range(app_config["scheduler"]["max_tries"]):
         try:
-            storage_check = requests.get(
+            health_check = requests.get(
                 app_config['storage_url']+"/bookingConfirm?start_timestamp=" +
                 body["last_updated"] + "&end_timestamp=" +
                 datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
@@ -89,13 +89,24 @@ def get_status(body):
 
     for sec in range(app_config["scheduler"]["max_tries"]):
         try:
-            processing_check = requests.get(
+            health_check = requests.get(
                 app_config['processing_url']+"/stats")
-            logger.info(processing_check.status_code)
             body["processing"] = "Up"
             break
         except Exception:
             body["processing"] = "Down"
+            time.sleep(app_config["scheduler"]['sleep'])
+            continue
+
+    for sec in range(app_config["scheduler"]["max_tries"]):
+        try:
+            health_check = requests.get(
+                app_config["audit_url"]+"booking_confirm?index=0")
+            print(health_check.status_code)
+            body["audit"] = "Up"
+            break
+        except Exception:
+            body["audit"] = "Down"
             time.sleep(app_config["scheduler"]['sleep'])
             continue
     return body
