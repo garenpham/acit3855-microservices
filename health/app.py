@@ -102,7 +102,7 @@ def get_status(body):
         try:
             health_check = requests.get(
                 app_config["audit_url"]+"booking_confirm?index=0")
-            print(health_check.status_code)
+            logger.info(health_check.status_code)
             body["audit"] = "Up"
             break
         except Exception:
