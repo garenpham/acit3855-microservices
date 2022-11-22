@@ -53,15 +53,34 @@ def create_table(sql_path):
 
 
 def get_status(body):
+    for sec in range(app_config["scheduler"]["max_tries"]):
+        receiver_body = {
+            "confirmationCode": "Test",
+            "name": "test",
+            "roomNum": 111,
+            "nights": 1,
+            "arriveDate": "2022-01-01"
+        }
+        receiver_check = requests.post(
+            app_config["receiver_url"],
+            headers={"Content-Type": "application/json"},
+            data=json.dumps(receiver_body),
+        )
+        if receiver_check.status_code == 200:
+            body["receiver"] = "Up"
+            break
+        else:
+            body["receiver"] = "Down"
+            time.sleep(app_config["scheduler"]['sleep'])
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        for sec in range(app_config["scheduler"]["max_tries"]):
-            res = sock.connect_ex(('localhost', 8080))
-            if res == 0:
-                body["receiver"] = "Down"
-                time.sleep(app_config["scheduler"]['sleep'])
-            else:
-                body["receiver"] = "Up"
-                break
+        #     for sec in range(app_config["scheduler"]["max_tries"]):
+        #         res = sock.connect_ex(('localhost', 8080))
+        #         if res == 0:
+        #             body["receiver"] = "Down"
+        #             time.sleep(app_config["scheduler"]['sleep'])
+        #         else:
+        #             body["receiver"] = "Up"
+        #             break
 
         for sec in range(app_config["scheduler"]["max_tries"]):
             res = sock.connect_ex(('localhost', 8090))
@@ -89,7 +108,6 @@ def get_status(body):
             else:
                 body["audit"] = "Up"
                 break
-
     return body
 
 

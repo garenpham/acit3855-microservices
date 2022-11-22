@@ -5,3 +5,7 @@ scheduler:
   sleep: 1
 datastore:
   filename: /data/data.sqlite
+receiver_url: http://localhost:8080/bookingConfirm
+storage_url: http://localhost:8090
+processing_url: http://localhost:8100
+audit_url: http://localhost:8110
