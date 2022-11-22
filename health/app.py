@@ -66,6 +66,7 @@ def get_status(body):
             headers={"Content-Type": "application/json"},
             data=receiver_body,
         )
+        logger.info(receiver_check.status_code)
         if receiver_check.status_code == 201:
             body["receiver"] = "Up"
             break
