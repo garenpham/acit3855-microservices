@@ -13,15 +13,15 @@ paths:
       operationId: app.get_health
       description: Gets status of each of the Receiver, Storage, Processing and Audit services
       responses:
-        '200':
+        "200":
           description: Successfully returned a list of health check events
           content:
             application/json:
               schema:
                 type: object
                 items:
-                  $ref: '#/components/schemas/ReadingHealth'
-        '400':
+                  $ref: "#/components/schemas/ReadingHealth"
+        "400":
           description: Invalid request
           content:
             application/json:

@@ -5,3 +5,4 @@ lab8.zip
 template.sh
 node_modules
 create_tables.py
+.prettierignore
