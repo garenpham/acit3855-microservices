@@ -64,7 +64,7 @@ def get_status(body):
         receiver_check = requests.post(
             app_config["receiver_url"],
             headers={"Content-Type": "application/json"},
-            data=receiver_body,
+            data=json.dumps(receiver_body),
         )
         logger.info(receiver_check.status_code)
         if receiver_check.status_code == 201:
