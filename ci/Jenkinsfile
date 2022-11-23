@@ -17,6 +17,9 @@ pipeline {
     stages {
         stage('Python Lint') {
             steps {
+                sh 'python3 -m venv venv'
+                sh 'venv/Scripts/Activate'
+                sh 'pip3 install -r requirements.txt'
                 sh 'pylint --fail-under=5 ./audit_log'
                 sh 'pylint --fail-under=5 ./dashboard-ui'
                 sh 'pylint --fail-under=5 ./health'
