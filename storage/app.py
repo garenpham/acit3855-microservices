@@ -1,12 +1,3 @@
-import connexion
-from connexion import NoContent
-
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import and_
-from base import Base
-from check_in import CheckIn
-from booking_confirm import BookingConfirm
 import yaml
 import logging
 import logging.config
@@ -14,9 +5,17 @@ import time
 import datetime
 import json
 import os
+import connexion
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import and_
+from base import Base
+from check_in import CheckIn
+from booking_confirm import BookingConfirm
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
 from threading import Thread
+from connexion import NoContent
 
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
     print("In Test Environment")

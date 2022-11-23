@@ -1,9 +1,9 @@
-import connexion
 import yaml
 import logging
 import logging.config
 import json
 import os
+import connexion
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
 from threading import Thread

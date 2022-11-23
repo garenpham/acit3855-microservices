@@ -1,8 +1,6 @@
 import datetime
 import json
 import swagger_ui_bundle
-import connexion
-from connexion import NoContent
 import requests
 import yaml
 import os
@@ -10,7 +8,9 @@ import time
 import logging
 import logging.config
 import uuid
+import connexion
 from pykafka import KafkaClient
+from connexion import NoContent
 
 
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":

@@ -1,7 +1,5 @@
 import datetime
 import json
-import connexion
-from connexion import NoContent
 import requests
 import yaml
 import logging
@@ -9,12 +7,14 @@ import logging.config
 import uuid
 import sqlite3
 import os
+import connexion
 from apscheduler.schedulers.background import BackgroundScheduler
 from stats import Stats
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from base import Base
 from flask_cors import CORS, cross_origin
+from connexion import NoContent
 
 # Your functions here
 

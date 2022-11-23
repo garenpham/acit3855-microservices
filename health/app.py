@@ -1,6 +1,5 @@
 import datetime
 import json
-from connexion import NoContent
 import requests
 import yaml
 import logging
@@ -17,6 +16,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from base import Base
 from flask_cors import CORS, cross_origin
+from connexion import NoContent
 
 
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
