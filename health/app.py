@@ -1,6 +1,5 @@
 import datetime
 import json
-import connexion
 from connexion import NoContent
 import requests
 import yaml
@@ -11,6 +10,7 @@ import sqlite3
 import os
 import socket
 import time
+import connexion
 from apscheduler.schedulers.background import BackgroundScheduler
 from healths import Healths
 from sqlalchemy import create_engine
