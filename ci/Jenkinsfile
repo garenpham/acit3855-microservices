@@ -18,13 +18,12 @@ pipeline {
         stage('Python Lint') {
             steps {
                 sh 'pip install -r ./audit_log/requirements.txt'
-                sh 'cd ..; pylint --fail-under=5 ./3855; cd 3855'
-                // sh 'pylint --fail-under=5 ./audit_log'
-                // sh 'pylint --fail-under=5 ./dashboard-ui'
-                // sh 'pylint --fail-under=5 ./health'
-                // sh 'pylint --fail-under=5 ./processing'
-                // sh 'pylint --fail-under=5 ./receiver'
-                // sh 'pylint --fail-under=5 ./storage'
+                sh 'pylint --fail-under=5 ./audit_log'
+                sh 'pylint --fail-under=5 ./dashboard-ui'
+                sh 'pylint --fail-under=5 ./health'
+                sh 'pylint --fail-under=5 ./processing'
+                sh 'pylint --fail-under=5 ./receiver'
+                sh 'pylint --fail-under=5 ./storage'
             }
                 
         }
