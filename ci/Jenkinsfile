@@ -27,6 +27,18 @@ pipeline {
                 // sh 'pylint --fail-under=5 ./storage'
             }
         }
+        stage('Package'){
+            when {
+                expression { env.GIT_BRANCH == 'origin/main' }
+            }
+            steps {
+                withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                    sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                    sh "docker build -t 3855:latest --tag tannedstone/3855:3855app ."
+                    sh "docker push tannedstone/3855:3855app"
+                }
+            }
+        }
     }
 }//1
 
