@@ -40,25 +40,7 @@ for connecting in range(app_config["max_tries"]):
 
 
 def get_health():
-    for sec in range(app_config["max_tries"]):
-        receiver_body = {
-            "confirmationCode": "Test",
-            "name": "test",
-            "roomNum": 0,
-            "nights": 0,
-            "arriveDate": "2022-00-00"
-        }
-        try:
-            health_check = requests.post(
-                app_config["receiver_url"],
-                headers={"Content-Type": "application/json"},
-                data=json.dumps(receiver_body),
-            )
-            return 200
-        except Exception:
-            time.sleep(app_config['sleep'])
-            continue
-    return 400
+    return NoContent, 200
 
 
 def checkIn(body):
