@@ -32,10 +32,14 @@ pipeline {
                 expression { env.GIT_BRANCH == 'origin/main' }
             }
             steps {
-                withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                    sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
-                    sh "docker build -t 3855:latest --tag tannedstone/3855:3855app ."
-                    sh "docker push tannedstone/3855:3855app"
+                script{
+                    if (params.DEPLOY_AUDIT) {
+                        withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                            sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                            sh "docker build -t audit_log:latest --tag tannedstone/audit_log:audit_log ./audit"
+                            sh "docker push tannedstone/audit_log:audit_log"
+                        }
+                    }
                 }
             }
         }
