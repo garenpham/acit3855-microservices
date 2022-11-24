@@ -30,6 +30,14 @@ pipeline {
         stage('Package'){
             when {
                 expression { env.GIT_BRANCH == 'origin/main' }
+                anyOf {
+                    expression { params.DEPLOY_AUDIT }
+                    expression { params.DEPLOY_DASHBOARD }
+                    expression { params.DEPLOY_HEALTH }
+                    expression { params.DEPLOY_PROCESSING }
+                    expression { params.DEPLOY_RECEIVER }
+                    expression { params.DEPLOY_STORAGE }
+                }
             }
             steps {
                 script{
