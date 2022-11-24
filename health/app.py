@@ -53,21 +53,12 @@ def create_table(sql_path):
 
 
 def get_status(body):
+
     for sec in range(app_config["scheduler"]["max_tries"]):
-        receiver_body = {
-            "confirmationCode": "Test",
-            "name": "test",
-            "roomNum": 0,
-            "nights": 0,
-            "arriveDate": "2022-00-00"
-        }
         try:
-            health_check = requests.post(
-                app_config["receiver_url"],
-                headers={"Content-Type": "application/json"},
-                data=json.dumps(receiver_body),
-            )
-            body["receiver"] = "Up"
+            health_check = requests.get(app_config['receiver_url']+'/health')
+            if health_check.status_code == 200:
+                body["receiver"] = "Up"
             break
         except Exception:
             body["receiver"] = "Down"
