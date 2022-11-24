@@ -59,7 +59,7 @@ paths:
         - admins
       summary: Gets the event health
       operationId: app.get_health
-      description: Gets status of each of the Receiver, Storage, Processing and Audit services
+      description: Gets status of service is running or offline
       responses:
         "200":
           description: Service is running

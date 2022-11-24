@@ -57,8 +57,7 @@ def get_status(body):
     for sec in range(app_config["scheduler"]["max_tries"]):
         try:
             health_check = requests.get(app_config['receiver_url']+'/health')
-            if health_check.status_code == 200:
-                body["receiver"] = "Up"
+            body["receiver"] = "Up"
             break
         except Exception:
             body["receiver"] = "Down"
