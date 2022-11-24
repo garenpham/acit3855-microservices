@@ -19,6 +19,10 @@ from connexion import NoContent
 # Your functions here
 
 
+def get_health():
+    return NoContent, 200
+
+
 def create_table(sql_path):
     conn = sqlite3.connect(sql_path)
     c = conn.cursor()

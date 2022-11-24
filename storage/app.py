@@ -41,6 +41,10 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 # Your functions here
 
 
+def get_health():
+    return NoContent, 200
+
+
 def get_checkin_info(start_timestamp, end_timestamp):
     """ Gets new check in info after the timestamp """
     session = DB_SESSION()

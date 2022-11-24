@@ -10,6 +10,10 @@ from threading import Thread
 from flask_cors import CORS, cross_origin
 
 
+def get_health():
+    return 200
+
+
 def get_check_in_reading(index):
     """ Get CI Reading in History """
     hostname = "%s:%d" % (

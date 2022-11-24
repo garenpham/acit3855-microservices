@@ -53,7 +53,6 @@ def create_table(sql_path):
 
 
 def get_status(body):
-
     for sec in range(app_config["scheduler"]["max_tries"]):
         try:
             health_check = requests.get(app_config['receiver_url']+'/health')
@@ -66,10 +65,7 @@ def get_status(body):
 
     for sec in range(app_config["scheduler"]["max_tries"]):
         try:
-            health_check = requests.get(
-                app_config['storage_url']+"/bookingConfirm?start_timestamp=" +
-                body["last_updated"] + "&end_timestamp=" +
-                datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
+            health_check = requests.get(app_config['storage_url']+'/health')
             body["storage"] = "Up"
             break
         except Exception:
@@ -79,8 +75,7 @@ def get_status(body):
 
     for sec in range(app_config["scheduler"]["max_tries"]):
         try:
-            health_check = requests.get(
-                app_config['processing_url']+"/stats")
+            health_check = requests.get(app_config['processing_url']+'/health')
             body["processing"] = "Up"
             break
         except Exception:
@@ -90,15 +85,14 @@ def get_status(body):
 
     for sec in range(app_config["scheduler"]["max_tries"]):
         try:
-            health_check = requests.get(
-                app_config["audit_url"]+"/booking_confirm?index=0")
-            logger.info(health_check.status_code)
+            health_check = requests.get(app_config['audit_url']+'/health')
             body["audit"] = "Up"
             break
         except Exception:
             body["audit"] = "Down"
             time.sleep(app_config["scheduler"]['sleep'])
             continue
+
     return body
 
 
