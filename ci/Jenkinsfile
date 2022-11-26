@@ -45,7 +45,7 @@ pipeline {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
                             sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
                             sh "docker build -t audit_log:latest --tag tannedstone/audit_log:audit_logapp ./audit_log"
-                            sh "docker push tannedstone/audit_log:audit_log"
+                            sh "docker push tannedstone/audit_log:audit_logapp"
                         }
                     }
 
@@ -134,6 +134,13 @@ pipeline {
             post {
                 always {
                     archiveArtifacts artifacts: '3855.zip'
+                }
+            }
+        }
+        stage('Deploy'){
+            steps{
+                script{
+                    sh 'ssh -i ~/.ssh/acit4850 phamminhtan@messager.eastus2.cloudapp.azure.com'
                 }
             }
         }
