@@ -80,7 +80,7 @@ services:
       - 'kafka'
       - 'db'
   processing:
-    image: processing
+    image: processing:processingapp
     restart: always
     ports:
       - '8100'
