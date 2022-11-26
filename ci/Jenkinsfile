@@ -136,7 +136,7 @@ pipeline {
                             sh "docker scan --json storage"
                         }
                     }
-                    sh 'cd..; zip -r 3855.zip 3855/*; cd 3855'
+                    sh 'cd ..; zip -r 3855.zip 3855/*; cd 3855'
                 }
             }
             post {
