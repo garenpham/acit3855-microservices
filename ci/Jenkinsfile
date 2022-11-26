@@ -143,6 +143,9 @@ pipeline {
                         remote.host = "messager.eastus2.cloudapp.azure.com"
                         remote.allowAnyHosts = true
                         remote.identityFile = KEYFILE
+                        withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                            sshCommand remote: remote, command: "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                        }
                         if (params.DEPLOY_AUDIT) {
                             sshCommand remote: remote, command: "docker pull tannedstone/audit_log:audit_logapp"
                         }
