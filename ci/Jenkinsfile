@@ -140,7 +140,7 @@ pipeline {
         stage('Deploy'){
             steps{
                 script{
-                    sh 'ssh -i ~/.ssh/acit4850 phamminhtan@messager.eastus2.cloudapp.azure.com'
+                    sh 'ssh -i /home/jenkins/.ssh/acit4850 phamminhtan@messager.eastus2.cloudapp.azure.com'
                 }
             }
         }
