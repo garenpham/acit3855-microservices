@@ -169,8 +169,8 @@ pipeline {
                     remote.host = "messager.eastus2.cloudapp.azure.com"
                     remote.allowAnyHosts = true
                     withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', privatekeyVariable: 'SSH_PRIKEY', usernameVariable: 'SSH_USERNAME')]) {
-                        remote.user = "$SSH_USERNAME"
-                        remote.identity = "$SSH_PRIKEY"
+                        remote.user = SSH_USERNAME
+                        remote.identity = SSH_PRIKEY
                     }
                     sshCommand remote: remote, command: "cd docker/deployment; docker compose down; docker compose up -d"
                 }
