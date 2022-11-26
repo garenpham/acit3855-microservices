@@ -172,6 +172,7 @@ pipeline {
                         remote.user = SSH_USERNAME
                         remote.identityFile = SSH_KEYFILE
                     }
+                    sh "echo $SSH_KEYFILE"
                     sshCommand remote: remote, command: "cd docker/deployment; docker compose down; docker compose up -d"
                 }
             }
