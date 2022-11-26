@@ -166,13 +166,12 @@ pipeline {
                     // sh 'cd docker/deployment; docker compose down; docker compose up -d'
                     def remote = [:]
                     remote.name = "3855 VM"
+                    remote.user = "phamminhtan"
                     remote.host = "messager.eastus2.cloudapp.azure.com"
                     remote.allowAnyHosts = true
-                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'SSH_KEYFILE', usernameVariable: 'SSH_USERNAME')]) {
-                        remote.user = SSH_USERNAME
-                        remote.identityFile = SSH_KEYFILE
+                    withCredentials([file(credentialsId: 'secret_ssh', variable: "KEYFILE")]) {
+                        remote.identityFile = KEYFILE
                     }
-                    sh "echo $SSH_KEYFILE"
                     sshCommand remote: remote, command: "cd docker/deployment; docker compose down; docker compose up -d"
                 }
             }
