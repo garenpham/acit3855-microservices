@@ -5,7 +5,7 @@ pipeline {
     'DEPLOY_AUDIT')
         booleanParam(defaultValue: false, description: 'Deploy Dashboard-UI', name:
     'DEPLOY_DASHBOARD')
-        booleanParam(defaultValue: true, description: 'Deploy Health Service', name:
+        booleanParam(defaultValue: false, description: 'Deploy Health Service', name:
     'DEPLOY_HEALTH')
         booleanParam(defaultValue: false, description: 'Deploy Processing Service', name:
     'DEPLOY_PROCESSING')
