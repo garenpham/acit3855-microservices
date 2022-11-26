@@ -165,6 +165,7 @@ pipeline {
                     }
                     // sh 'cd docker/deployment; docker compose down; docker compose up -d'
                     def remote = [:]
+                    remote.name = "3855 VM"
                     remote.user = "phamminhtan"
                     remote.host = "messager.eastus2.cloudapp.azure.com"
                     remote.allowAnyHosts = true
