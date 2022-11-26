@@ -51,7 +51,7 @@ services:
     volumes:
       - my-db:/var/lib/mysql
   receiver:
-    image: receiver
+    image: tannedstone/receiver:receiverapp
     restart: always
     ports:
       - '8080'
@@ -65,7 +65,7 @@ services:
     depends_on:
       - 'kafka'
   storage:
-    image: storage
+    image: tannedstone/storage:storageapp
     restart: always
     ports:
       - '8090'
@@ -80,7 +80,7 @@ services:
       - 'kafka'
       - 'db'
   processing:
-    image: processing
+    image: tannedstone/processing:processingapp
     restart: always
     ports:
       - '8100'
@@ -95,7 +95,7 @@ services:
     depends_on:
       - 'storage'
   audit_log:
-    image: audit_log
+    image: audit_log:audit_logapp
     restart: always
     ports:
       - '8110'
@@ -109,7 +109,7 @@ services:
     depends_on:
       - 'kafka'
   health:
-    image: health
+    image: tannedstone/health:healthapp
     restart: always
     ports:
       - '8120:8120'
@@ -126,7 +126,7 @@ services:
       - 'processing'
       - 'audit_log'
   dashboard:
-    image: dashboard
+    image: tannedstone/dashboard:dashboardapp
     restart: always
     ports:
       - '3000'

@@ -166,7 +166,7 @@ pipeline {
                         if (params.DEPLOY_STORAGE) {
                             sshCommand remote: remote, command: "docker pull tannedstone/storage:storageapp"
                         }
-                        sshCommand remote: remote, command: "cd docker/deployment; docker compose down; docker compose up -d"
+                        sshCommand remote: remote, command: "cd docker/deploymentJenkins; git pull; docker compose down; docker compose up -d"
                     }
                 }
             }
