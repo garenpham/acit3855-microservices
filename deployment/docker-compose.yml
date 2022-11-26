@@ -51,7 +51,7 @@ services:
     volumes:
       - my-db:/var/lib/mysql
   receiver:
-    image: receiver
+    image: receiver:receiverapp
     restart: always
     ports:
       - '8080'
@@ -65,7 +65,7 @@ services:
     depends_on:
       - 'kafka'
   storage:
-    image: storage
+    image: storage:storageapp
     restart: always
     ports:
       - '8090'
@@ -95,7 +95,7 @@ services:
     depends_on:
       - 'storage'
   audit_log:
-    image: audit_log
+    image: audit_log:audit_logapp
     restart: always
     ports:
       - '8110'
@@ -126,7 +126,7 @@ services:
       - 'processing'
       - 'audit_log'
   dashboard:
-    image: dashboard
+    image: dashboard:dashboardapp
     restart: always
     ports:
       - '3000'
