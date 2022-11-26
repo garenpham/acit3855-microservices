@@ -106,36 +106,34 @@ pipeline {
             steps {
                 script{
                     if (params.DEPLOY_AUDIT) {
-                        sh "docker scan audit_log"
+                        sh "docker scan --json audit_log"
                     }
 
                     if (params.DEPLOY_DASHBOARD) {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker scan dashboard"
+                            sh "docker scan --json dashboard"
                         }
                     }
 
                     if (params.DEPLOY_HEALTH) {
-                        withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker scan health"
-                        }
+                        sh "docker scan --json health"
                     }
 
                     if (params.DEPLOY_PROCESSING) {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker scan processing"
+                            sh "docker scan --json processing"
                         }
                     }
 
                     if (params.DEPLOY_RECEIVER) {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker scan receiver"
+                            sh "docker scan --json receiver"
                         }
                     }
 
                     if (params.DEPLOY_STORAGE) {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker scan storage"
+                            sh "docker scan --json storage"
                         }
                     }
                     sh 'cd..; zip -r 3855.zip 3855/*; cd 3855'
