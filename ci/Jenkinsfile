@@ -136,7 +136,7 @@ pipeline {
             }
             steps{
                 script{
-                    sh 'ssh -tt -i ~/.ssh/jenkins phamminhtan@messager.eastus2.cloudapp.azure.com'
+                    // sh 'ssh -tt -i ~/.ssh/jenkins phamminhtan@messager.eastus2.cloudapp.azure.com'
                     if (params.DEPLOY_AUDIT) {
                         sh "docker pull audit_log:audit_logapp"
                     }
@@ -160,7 +160,15 @@ pipeline {
                     if (params.DEPLOY_STORAGE) {
                         sh "docker pull storage:storageapp"
                     }
-                    sh 'cd docker/deployment; docker compose down; docker compose up -d'
+                    // sh 'cd docker/deployment; docker compose down; docker compose up -d'
+                    def remote = [:]
+                    remote.user = "phamminhtan"
+                    remote.host = "messager.eastus2.cloudapp.azure.com"
+                    remote.allowAnyHosts = true
+                    withCredentials([string(credentialsId: 'ssh_key', variable: 'SSH_KEY')]) {
+                        remote.identity = "$SSH_KEY"
+                        sshCommand remote: remote, command: "cd docker/deployment; docker compose down; docker compose up -d"
+                    }
                 }
             }
         }
