@@ -133,9 +133,44 @@ pipeline {
             }
         }
         stage('Deploy'){
+            when {
+                expression { env.GIT_BRANCH == 'origin/main' }
+                anyOf {
+                    expression { params.DEPLOY_AUDIT }
+                    expression { params.DEPLOY_DASHBOARD }
+                    expression { params.DEPLOY_HEALTH }
+                    expression { params.DEPLOY_PROCESSING }
+                    expression { params.DEPLOY_RECEIVER }
+                    expression { params.DEPLOY_STORAGE }
+                }
+            }
             steps{
                 script{
                     sh 'ssh -i ~/.ssh/acit4850 phamminhtan@messager.eastus2.cloudapp.azure.com'
+                    if (params.DEPLOY_AUDIT) {
+                        sh "docker pull audit_log:audit_logapp"
+                    }
+
+                    if (params.DEPLOY_DASHBOARD) {
+                        sh "docker pull dashboard:dashboardapp"
+                    }
+
+                    if (params.DEPLOY_HEALTH) {
+                        sh "docker pull health:healthapp"
+                    }
+
+                    if (params.DEPLOY_PROCESSING) {
+                        sh "docker pull processing:processingapp"
+                    }
+
+                    if (params.DEPLOY_RECEIVER) {
+                        sh "docker pull receiver:receiverapp"
+                    }
+
+                    if (params.DEPLOY_STORAGE) {
+                        sh "docker pull storage:storageapp"
+                    }
+                    sh 'docker compose up -d'
                 }
             }
         }
