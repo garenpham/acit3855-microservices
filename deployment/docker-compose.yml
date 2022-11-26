@@ -109,7 +109,7 @@ services:
     depends_on:
       - 'kafka'
   health:
-    image: health
+    image: health:healthapp
     restart: always
     ports:
       - '8120:8120'
