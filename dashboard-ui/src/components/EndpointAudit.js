@@ -11,7 +11,7 @@ export default function EndpointAudit(props) {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const getAudit = () => {
 		fetch(
-			`http://messager.eastus2.cloudapp.azure.com:8110/${props.endpoint}?index=${rand_val}`
+			`http://messager.eastus2.cloudapp.azure.com/audit_log/${props.endpoint}?index=${rand_val}`
 		)
 			.then((res) => res.json())
 			.then(
