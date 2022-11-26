@@ -136,6 +136,9 @@ pipeline {
             }
             steps{
                 script{
+                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                    }
                     // sh 'ssh -tt -i ~/.ssh/jenkins phamminhtan@messager.eastus2.cloudapp.azure.com'
                     if (params.DEPLOY_AUDIT) {
                         sh "docker pull audit_log:audit_logapp"
