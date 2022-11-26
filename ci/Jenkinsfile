@@ -41,9 +41,9 @@ pipeline {
             }
             steps {
                 script{
+                    sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
                     if (params.DEPLOY_AUDIT) {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
                             sh "docker build -t audit_log:latest --tag tannedstone/audit_log:audit_logapp ./audit_log"
                             sh "docker push tannedstone/audit_log:audit_logapp"
                         }
@@ -51,7 +51,6 @@ pipeline {
 
                     if (params.DEPLOY_DASHBOARD) {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
                             sh "docker build -t dashboard:latest --tag tannedstone/dashboard:dashboardapp ./dashboard-ui"
                             sh "docker push tannedstone/dashboard:dashboardapp"
                         }
@@ -59,7 +58,6 @@ pipeline {
 
                     if (params.DEPLOY_HEALTH) {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
                             sh "docker build -t health:latest --tag tannedstone/health:healthapp ./health"
                             sh "docker push tannedstone/health:healthapp"
                         }
@@ -67,7 +65,6 @@ pipeline {
 
                     if (params.DEPLOY_PROCESSING) {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
                             sh "docker build -t processing:latest --tag tannedstone/processing:processingapp ./processing"
                             sh "docker push tannedstone/processing:processingapp"
                         }
@@ -75,7 +72,6 @@ pipeline {
 
                     if (params.DEPLOY_RECEIVER) {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
                             sh "docker build -t receiver:latest --tag tannedstone/receiver:receiverapp ./receiver"
                             sh "docker push tannedstone/receiver:receiverapp"
                         }
@@ -83,7 +79,6 @@ pipeline {
 
                     if (params.DEPLOY_STORAGE) {
                         withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                            sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
                             sh "docker build -t storage:latest --tag tannedstone/storage:storageapp ./storage"
                             sh "docker push tannedstone/storage:storageapp"
                         }
@@ -140,7 +135,7 @@ pipeline {
         stage('Deploy'){
             steps{
                 script{
-                    sh 'ssh -i /home/jenkins/.ssh/acit4850 phamminhtan@messager.eastus2.cloudapp.azure.com'
+                    sh 'ssh -i /.ssh/acit4850 phamminhtan@messager.eastus2.cloudapp.azure.com'
                 }
             }
         }
