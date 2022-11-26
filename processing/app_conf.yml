@@ -6,7 +6,7 @@ datastore:
 scheduler:
   period_sec: 5
 eventstore:
-  url: http://localhost:8090
+  url: http://messager.eastus2.cloudapp.azure.com/storage
 # eventstoreCheckIn:
 #   url: http://localhost:8090/checkIn
 # eventstoreBookingConfirm:
