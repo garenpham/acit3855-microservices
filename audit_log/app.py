@@ -84,9 +84,8 @@ def get_booking_confirm_reading(index):
 
 
 app = connexion.FlaskApp(__name__, specification_dir="")
-CORS(app.app)
-app.app.config['CORS_HEADERS'] = 'Content-Type'
-app.add_api("openapi.yaml", strict_validation=True, validate_responses=True)
+app.add_api("openapi.yaml", base_path="/audit_log",
+            strict_validation=True, validate_responses=True)
 
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
     print("In Test Environment")
@@ -96,6 +95,8 @@ else:
     print("In Dev Environment")
     app_conf_file = "app_conf.yml"
     log_conf_file = "log_conf.yml"
+    CORS(app.app)
+    app.app.config['CORS_HEADERS'] = 'Content-Type'
 
 with open(app_conf_file, 'r') as f:
     app_config = yaml.safe_load(f.read())
