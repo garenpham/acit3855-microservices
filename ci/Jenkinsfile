@@ -136,7 +136,7 @@ pipeline {
             }
             steps{
                 script{
-                    sh 'ssh -tt -i ~/.ssh/acit4850 phamminhtan@messager.eastus2.cloudapp.azure.com'
+                    sh 'ssh -tt -i ~/.ssh/jenkins phamminhtan@messager.eastus2.cloudapp.azure.com'
                     if (params.DEPLOY_AUDIT) {
                         sh "docker pull audit_log:audit_logapp"
                     }
