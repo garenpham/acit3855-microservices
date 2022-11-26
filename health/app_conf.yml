@@ -5,7 +5,7 @@ scheduler:
   sleep: 1
 datastore:
   filename: /data/data.sqlite
-receiver_url: http://localhost:8080
-storage_url: http://localhost:8090
-processing_url: http://localhost:8100
-audit_url: http://localhost:8110
+receiver_url: http://messager.eastus2.cloudapp.azure.com/receiver
+storage_url: http://messager.eastus2.cloudapp.azure.com/storage
+processing_url: http://messager.eastus2.cloudapp.azure.com/processing
+audit_url: http://messager.eastus2.cloudapp.azure.com/audit_log
