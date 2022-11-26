@@ -143,7 +143,6 @@ pipeline {
                         remote.host = "messager.eastus2.cloudapp.azure.com"
                         remote.allowAnyHosts = true
                         remote.identityFile = KEYFILE
-                        // sh 'ssh -tt -i ~/.ssh/jenkins phamminhtan@messager.eastus2.cloudapp.azure.com'
                         if (params.DEPLOY_AUDIT) {
                             sshCommand remote: remote, command: "docker pull tannedstone/audit_log:audit_logapp"
                         }
@@ -167,7 +166,6 @@ pipeline {
                         if (params.DEPLOY_STORAGE) {
                             sshCommand remote: remote, command: "docker pull tannedstone/storage:storageapp"
                         }
-                        // sh 'cd docker/deployment; docker compose down; docker compose up -d'
                         sshCommand remote: remote, command: "cd docker/deployment; docker compose down; docker compose up -d"
                     }
                 }
