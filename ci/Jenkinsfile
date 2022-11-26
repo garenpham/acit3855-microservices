@@ -136,7 +136,7 @@ pipeline {
                             sh "docker scan --json storage"
                         }
                     }
-                    sh 'cd ..; zip -r 3855.zip 3855/*; cd 3855'
+                    sh 'zip -r 3855.zip audit_log ci dashboard-ui deployment health processing receiver storage .gitignore .prettierignore nginx.conf package-lock.json template.sh'
                 }
             }
             post {
