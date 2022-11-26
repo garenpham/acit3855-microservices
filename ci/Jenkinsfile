@@ -170,7 +170,7 @@ pipeline {
                     if (params.DEPLOY_STORAGE) {
                         sh "docker pull storage:storageapp"
                     }
-                    sh 'docker compose up -d'
+                    sh 'cd docker/deployment; docker compose down; docker compose up -d'
                 }
             }
         }
