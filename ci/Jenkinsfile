@@ -98,11 +98,12 @@ pipeline {
                         sh "docker scan --accept-license --severity=high --json audit_log:latest"
                     }
 
-                    try:
+                    try {
                         if (params.DEPLOY_DASHBOARD) {
                             sh "docker scan --accept-license --severity=high --json dashboard:latest"
                         }
-                    catch(error){
+                    }
+                    catch(error) {
                         sh "exit 1"
                     }
                 
