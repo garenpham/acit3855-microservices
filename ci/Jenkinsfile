@@ -30,8 +30,10 @@ pipeline {
         
         stage('Package Audit'){
             when{
-                expression { env.GIT_BRANCH == 'origin/main' }
-                changeset "audit_log/*"
+                allOf {
+                    expression { env.GIT_BRANCH == 'origin/main' }
+                    changeset "audit_log/*"
+                }
             }
             steps{
                 script{
