@@ -59,7 +59,7 @@ pipeline {
                         sh "docker push tannedstone/health:healthapp"
                     }
 
-                    if (changeset=="processing/**") {
+                    if (params.DEPLOY_PROCESSING) {
                         sh "docker build -t processing:latest --tag tannedstone/processing:processingapp ./processing"
                         sh "docker push tannedstone/processing:processingapp"
                     }
