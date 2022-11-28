@@ -32,7 +32,7 @@ pipeline {
             when{
                 allOf {
                     expression { env.GIT_BRANCH == 'origin/main' }
-                    changeset "audit_log/*"
+                    changeset "audit_log/**"
                 }
             }
             steps{
