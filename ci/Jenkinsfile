@@ -91,27 +91,27 @@ pipeline {
             steps {
                 script{
                     if (params.DEPLOY_AUDIT) {
-                        sh "docker scan --json audit_log"
+                        sh "docker scan --accept-license --json audit_log"
                     }
 
                     if (params.DEPLOY_DASHBOARD) {
-                        sh "docker scan --json dashboard"
+                        sh "docker scan --accept-license --json dashboard"
                     }
 
                     if (params.DEPLOY_HEALTH) {
-                        sh "docker scan --json health"
+                        sh "docker scan --accept-license --json health"
                     }
 
                     if (params.DEPLOY_PROCESSING) {
-                        sh "docker scan --json processing"
+                        sh "docker scan --accept-license --json processing"
                     }
 
                     if (params.DEPLOY_RECEIVER) {
-                        sh "docker scan --json receiver"
+                        sh "docker scan --accept-license --json receiver"
                     }
 
                     if (params.DEPLOY_STORAGE) {
-                        sh "docker scan --json storage"
+                        sh "docker scan --accept-license --json storage"
                     }
                     sh 'zip -r 3855.zip audit_log ci dashboard-ui deployment health processing receiver storage .gitignore .prettierignore nginx.conf package-lock.json template.sh'
                 }
