@@ -92,6 +92,7 @@ def create_stats(body):
 def populate_stats():
     """ Periodically update stats """
     logger.info("Start Periodic Processing")
+    logger.info("Checking new changes")
 
     currentStat = get_stats()
 

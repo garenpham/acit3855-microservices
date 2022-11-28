@@ -90,6 +90,9 @@ pipeline {
             }
             steps {
                 script{
+                    // catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    //     sh "exit 1"
+                    // }
                     withCredentials([string(credentialsId: 'Synk', variable: 'SNYK_TOKEN')]) {
                         sh "docker scan --login --token $SNYK_TOKEN"
                     }
