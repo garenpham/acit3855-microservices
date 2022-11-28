@@ -37,7 +37,6 @@ pipeline {
             }
             steps{
                 script{
-                    params.DEPLOY_AUDIT = True
                     withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
                         sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
                         sh "docker build -t audit_log:latest --tag tannedstone/audit_log:audit_logapp ./audit_log"
