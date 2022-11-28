@@ -100,6 +100,9 @@ pipeline {
 
                     if (params.DEPLOY_DASHBOARD) {
                         sh "docker scan --accept-license --severity=high --json dashboard:latest"
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            sh "exit 1"
+                        }
                     }
 
                     if (params.DEPLOY_HEALTH) {
