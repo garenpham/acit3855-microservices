@@ -90,7 +90,8 @@ pipeline {
             }
             steps {
                 script{
-                    sh "docker scan --login --token eeb4edde-9131-4fb3-8fa5-1ec7e3f418c4"
+                    withCredentials([string(credentialsId: 'Synk', variable: 'SNYK_TOKEN')]) {}
+                    sh "docker scan --login --token SNYK_TOKEN"
                     if (params.DEPLOY_AUDIT) {
                         sh "docker scan --accept-license --severity=high --json tannedstone/audit_log:audit_logapp"
                     }
