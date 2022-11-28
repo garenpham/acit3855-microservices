@@ -99,7 +99,11 @@ pipeline {
                     }
 
                     if (params.DEPLOY_DASHBOARD) {
-                        sh "docker scan --accept-license --severity=high --json dashboard:latest"
+                        try:
+                            sh "docker scan --accept-license --severity=high --json dashboard:latest"
+                        catch(error){
+                            sh "exit 1"
+                        }
                     }
 
                     if (params.DEPLOY_HEALTH) {
@@ -116,9 +120,6 @@ pipeline {
 
                     if (params.DEPLOY_STORAGE) {
                         sh "docker scan --accept-license --severity=high --json storage:latest"
-                    }
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "exit 1"
                     }
                     sh 'zip -r 3855.zip audit_log ci dashboard-ui deployment health processing receiver storage .gitignore .prettierignore nginx.conf package-lock.json template.sh'
                 }
