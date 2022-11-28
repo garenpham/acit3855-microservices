@@ -64,6 +64,78 @@ pipeline {
             }
         }
 
+        stage('Package Health'){
+            when{
+                allOf {
+                    expression { env.GIT_BRANCH == 'origin/main' }
+                    changeset "health/**"
+                }
+            }
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                        sh "docker build -t health:latest --tag tannedstone/health:healthapp ./health"
+                        sh "docker push tannedstone/health:healthapp"
+                    }
+                }
+            }
+        }
+
+        stage('Package Processing'){
+            when{
+                allOf {
+                    expression { env.GIT_BRANCH == 'origin/main' }
+                    changeset "processing/**"
+                }
+            }
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                        sh "docker build -t processing:latest --tag tannedstone/processing:processingapp ./processing"
+                        sh "docker push tannedstone/processing:processingapp"
+                    }
+                }
+            }
+        }
+
+        stage('Package Receiver'){
+            when{
+                allOf {
+                    expression { env.GIT_BRANCH == 'origin/main' }
+                    changeset "receiver/**"
+                }
+            }
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                        sh "docker build -t receiver:latest --tag tannedstone/receiver:receiverapp ./receiver"
+                        sh "docker push tannedstone/receiver:receiverapp"
+                    }
+                }
+            }
+        }
+
+        stage('Package Storage'){
+            when{
+                allOf {
+                    expression { env.GIT_BRANCH == 'origin/main' }
+                    changeset "storage/**"
+                }
+            }
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                        sh "docker build -t storage:latest --tag tannedstone/storage:storageapp ./storage"
+                        sh "docker push tannedstone/storage:storageapp"
+                    }
+                }
+            }
+        }
+
         stage('Scan image and Zip'){
             when {
                 expression { env.GIT_BRANCH == 'origin/main' }
