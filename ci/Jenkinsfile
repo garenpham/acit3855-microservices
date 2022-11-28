@@ -9,7 +9,7 @@ pipeline {
     'DEPLOY_HEALTH')
         booleanParam(defaultValue: false, description: 'Deploy Processing Service', name:
     'DEPLOY_PROCESSING')
-        booleanParam(defaultValue: false, description: 'Deploy Receiver Service', name:
+        booleanParam(defaultValue: true, description: 'Deploy Receiver Service', name:
     'DEPLOY_RECEIVER')
         booleanParam(defaultValue: false, description: 'Deploy Storage Service', name:
     'DEPLOY_STORAGE')
