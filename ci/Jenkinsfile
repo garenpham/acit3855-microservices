@@ -50,7 +50,7 @@ pipeline {
             when{
                 allOf {
                     expression { env.GIT_BRANCH == 'origin/main' }
-                    changeset "dashboard-ui/*"
+                    changeset "dashboard-ui/**"
                 }
             }
             steps{
