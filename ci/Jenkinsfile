@@ -44,6 +44,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
                         sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
                     }
+                    sh "docker scan --login --token eeb4edde-9131-4fb3-8fa5-1ec7e3f418c4"
                     if (params.DEPLOY_AUDIT) {
                         sh "docker build -t audit_log:latest --tag tannedstone/audit_log:audit_logapp ./audit_log"
                         sh "docker push tannedstone/audit_log:audit_logapp"            
