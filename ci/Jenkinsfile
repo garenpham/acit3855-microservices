@@ -91,27 +91,27 @@ pipeline {
             steps {
                 script{
                     if (params.DEPLOY_AUDIT) {
-                        sh "docker scan --accept-license --severity=medium --json tannedstone/audit_log:audit_logapp"
+                        sh "docker scan --accept-license --severity=low --json tannedstone/audit_log:audit_logapp"
                     }
 
                     if (params.DEPLOY_DASHBOARD) {
-                        sh "docker scan --accept-license --severity=medium --json tannedstone/dashboard:dashboardapp"
+                        sh "docker scan --accept-license --severity=low --json tannedstone/dashboard:dashboardapp"
                     }
 
                     if (params.DEPLOY_HEALTH) {
-                        sh "docker scan --accept-license --severity=medium --json tannedstone/health:healthapp"
+                        sh "docker scan --accept-license --severity=low --json tannedstone/health:healthapp"
                     }
 
                     if (params.DEPLOY_PROCESSING) {
-                        sh "docker scan --accept-license --severity=medium --json tannedstone/processing:processingapp"
+                        sh "docker scan --accept-license --severity=low --json tannedstone/processing:processingapp"
                     }
 
                     if (params.DEPLOY_RECEIVER) {
-                        sh "docker scan --accept-license --severity=medium --json tannedstone/receiver:receiverapp"
+                        sh "docker scan --accept-license --severity=low --json tannedstone/receiver:receiverapp"
                     }
 
                     if (params.DEPLOY_STORAGE) {
-                        sh "docker scan --accept-license --severity=medium --json tannedstone/storage:storageapp"
+                        sh "docker scan --accept-license --severity=low --json tannedstone/storage:storageapp"
                     }
                     sh 'zip -r 3855.zip audit_log ci dashboard-ui deployment health processing receiver storage .gitignore .prettierignore nginx.conf package-lock.json template.sh'
                 }
