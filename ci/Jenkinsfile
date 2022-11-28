@@ -27,115 +27,55 @@ pipeline {
                 // sh 'pylint --fail-under=5 ./storage'
             }
         }
-        
-        stage('Package Audit'){
-            when{
-                allOf {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                    changeset "audit_log/**"
+        stage('Package'){
+            when {
+                expression { env.GIT_BRANCH == 'origin/main' }
+                anyOf {
+                    expression { params.DEPLOY_AUDIT }
+                    expression { params.DEPLOY_DASHBOARD }
+                    expression { params.DEPLOY_HEALTH }
+                    expression { params.DEPLOY_PROCESSING }
+                    expression { params.DEPLOY_RECEIVER }
+                    expression { params.DEPLOY_STORAGE }
                 }
             }
-            steps{
+            steps {
                 script{
                     withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
                         sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
-                        sh "docker build -t audit_log:latest --tag tannedstone/audit_log:audit_logapp ./audit_log"
-                        sh "docker push tannedstone/audit_log:audit_logapp"
                     }
-                }
-            }
-        }
+                    if (params.DEPLOY_AUDIT) {
+                        sh "docker build -t audit_log:latest --tag tannedstone/audit_log:audit_logapp ./audit_log"
+                        sh "docker push tannedstone/audit_log:audit_logapp"            
+                    }
 
-        stage('Package Dashboard'){
-            when{
-                allOf {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                    changeset "dashboard-ui/**"
-                }
-            }
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                    if (params.DEPLOY_DASHBOARD) {
                         sh "docker build -t dashboard:latest --tag tannedstone/dashboard:dashboardapp ./dashboard-ui"
                         sh "docker push tannedstone/dashboard:dashboardapp"
                     }
-                }
-            }
-        }
 
-        stage('Package Health'){
-            when{
-                allOf {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                    changeset "health/**"
-                }
-            }
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                    if (params.DEPLOY_HEALTH) {
                         sh "docker build -t health:latest --tag tannedstone/health:healthapp ./health"
                         sh "docker push tannedstone/health:healthapp"
                     }
-                }
-            }
-        }
 
-        stage('Package Processing'){
-            when{
-                allOf {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                    changeset "processing/**"
-                }
-            }
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                    if (changeset=="processing/**") {
                         sh "docker build -t processing:latest --tag tannedstone/processing:processingapp ./processing"
                         sh "docker push tannedstone/processing:processingapp"
                     }
-                }
-            }
-        }
 
-        stage('Package Receiver'){
-            when{
-                allOf {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                    changeset "receiver/**"
-                }
-            }
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                    if (params.DEPLOY_RECEIVER) {
                         sh "docker build -t receiver:latest --tag tannedstone/receiver:receiverapp ./receiver"
                         sh "docker push tannedstone/receiver:receiverapp"
                     }
-                }
-            }
-        }
 
-        stage('Package Storage'){
-            when{
-                allOf {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                    changeset "storage/**"
-                }
-            }
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
-                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                    if (params.DEPLOY_STORAGE) {
                         sh "docker build -t storage:latest --tag tannedstone/storage:storageapp ./storage"
                         sh "docker push tannedstone/storage:storageapp"
                     }
                 }
             }
         }
-
         stage('Scan image and Zip'){
             when {
                 expression { env.GIT_BRANCH == 'origin/main' }
@@ -246,4 +186,5 @@ pipeline {
             }
         }
     }
-}
+}//2
+
