@@ -46,6 +46,24 @@ pipeline {
             }
         }
 
+        stage('Package Dashboard'){
+            when{
+                allOf {
+                    expression { env.GIT_BRANCH == 'origin/main' }
+                    changeset "dashboard-ui/*"
+                }
+            }
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'DockerHub', variable: 'TOKEN')]) {
+                        sh "docker login -u 'tannedstone' -p '$TOKEN' docker.io"
+                        sh "docker build -t dashboard:latest --tag tannedstone/dashboard:dashboardapp ./dashboard-ui"
+                        sh "docker push tannedstone/dashboard:dashboardapp"
+                    }
+                }
+            }
+        }
+
         stage('Scan image and Zip'){
             when {
                 expression { env.GIT_BRANCH == 'origin/main' }
