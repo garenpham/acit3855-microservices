@@ -91,27 +91,27 @@ pipeline {
             steps {
                 script{
                     if (params.DEPLOY_AUDIT) {
-                        sh "docker scan --accept-license --json audit_log"
+                        sh "docker scan --file ./audit_log/dockerfile tannedstone/audit_log:audit_logapp"
                     }
 
                     if (params.DEPLOY_DASHBOARD) {
-                        sh "docker scan --accept-license --json dashboard"
+                        sh "docker scan --accept-license --json tannedstone/dashboard:dashboardapp"
                     }
 
                     if (params.DEPLOY_HEALTH) {
-                        sh "docker scan --accept-license --json health"
+                        sh "docker scan --accept-license --json tannedstone/health:healthapp"
                     }
 
                     if (params.DEPLOY_PROCESSING) {
-                        sh "docker scan --accept-license --json processing"
+                        sh "docker scan --accept-license --json tannedstone/processing:processingapp"
                     }
 
                     if (params.DEPLOY_RECEIVER) {
-                        sh "docker scan --accept-license --json receiver"
+                        sh "docker scan --accept-license --json tannedstone/receiver:receiverapp"
                     }
 
                     if (params.DEPLOY_STORAGE) {
-                        sh "docker scan --accept-license --json storage"
+                        sh "docker scan --accept-license --json tannedstone/storage:storageapp"
                     }
                     sh 'zip -r 3855.zip audit_log ci dashboard-ui deployment health processing receiver storage .gitignore .prettierignore nginx.conf package-lock.json template.sh'
                 }
