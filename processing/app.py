@@ -96,7 +96,7 @@ def populate_stats():
 
     currentStat = get_stats()
 
-    body = currentStat[0]  # 1
+    body = currentStat[0]
 
     current_timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
