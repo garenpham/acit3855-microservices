@@ -91,7 +91,7 @@ pipeline {
             steps {
                 script{
                     if (params.DEPLOY_AUDIT) {
-                        sh "docker scan --file ./audit_log/dockerfile tannedstone/audit_log:audit_logapp"
+                        sh "docker scan --file ../audit_log/dockerfile tannedstone/audit_log:audit_logapp"
                     }
 
                     if (params.DEPLOY_DASHBOARD) {
