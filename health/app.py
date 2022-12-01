@@ -17,7 +17,6 @@ from sqlalchemy.orm import sessionmaker
 from base import Base
 from flask_cors import CORS, cross_origin
 from connexion import NoContent
-# 2
 
 if "TARGET_ENV" in os.environ and os.environ["TARGET_ENV"] == "test":
     print("In Test Environment")
@@ -30,6 +29,7 @@ else:
 
 with open(app_conf_file, 'r') as f:
     app_config = yaml.safe_load(f.read())
+
 
 # Your functions here
 
