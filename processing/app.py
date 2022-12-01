@@ -100,16 +100,6 @@ def populate_stats():
 
     current_timestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 
-    # checkinUrl = app_config['eventstoreCheckIn']['url']
-    # bookingUrl = app_config['eventstoreBookingConfirm']['url']
-
-    # getCheckinResponse = requests.get(
-    #     checkinUrl,
-    #     headers={"Content-Type": "application/json"},
-    #     params={"timestamp":
-    #             currentTime.strftime("%Y-%m-%dT%H:%M:%S")}
-    # )
-
     getCheckinResponse = requests.get(
         app_config['eventstore']['url']+"/checkIn?start_timestamp=" +
         body["last_updated"] + "&end_timestamp=" +
