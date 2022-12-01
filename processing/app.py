@@ -118,12 +118,6 @@ def populate_stats():
     else:
         logger.error("Request data failed")
 
-    # getBookingConfirmResponse = requests.get(
-    #     bookingUrl,
-    #     headers={"Content-Type": "application/json"},
-    #     params={"timestamp":
-    #             currentTime.strftime("%Y-%m-%dT%H:%M:%S")}
-    # )
     getBookingConfirmResponse = requests.get(
         app_config['eventstore']['url']+"/bookingConfirm?start_timestamp=" +
         body["last_updated"] + "&end_timestamp=" +
